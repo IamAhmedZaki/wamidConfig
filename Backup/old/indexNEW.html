@@ -1,0 +1,1968 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Configurator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Ulm Grotesk';
+            src: url('./Font/FontsFreeNetUlmGrotesk.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #e2e7e7 0%, #f0f4f4 100%);
+            font-family: 'Ulm Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 35px;
+            position: relative;
+            z-index: 10;
+            /* backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1); */
+        }
+
+        .back-button {
+            border: none;
+            font-size: 1.2rem;
+            color: #161616;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            background-image: url('./Images/left-arrow.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button:active {
+            transform: translateY(0);
+        }
+
+        .logo {
+            background: linear-gradient(135deg, #000 0%, #333 100%);
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: absolute;
+            left: 31px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        nav {
+            display: flex;
+            gap: 1rem;
+            height: 50px;
+        }
+
+        .category-button {
+            border: none;
+            border-radius: 50px;
+            padding: 1.1rem 2.2rem;
+            background: rgba(238, 242, 243, 0.9);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #161616;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .category-button:hover::before {
+            left: 100%;
+        }
+
+        .category-button:hover {
+            background: rgba(221, 221, 221, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-button img {
+            filter: none;
+            transition: filter 0.3s;
+            width: 20px;
+            height: 20px;
+        }
+
+        .category-button.active {
+            background: linear-gradient(135deg, #000 0%, #333 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-button.active img {
+            filter: brightness(0) invert(1);
+        }
+
+        main {
+            position: relative;
+            text-align: center;
+            padding: 0 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            max-height: calc(100vh - 140px);
+            pointer-events: none;
+        }
+
+        h1 {
+            text-align: left;
+            font-size: 2rem;
+            margin-left: 3rem;
+            align-self: flex-start;
+            background: linear-gradient(135deg, #161616 0%, #444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .Car {
+            overflow: hidden;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+            max-height: 60vh;
+        }
+
+        .Car::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 20px;
+            background: radial-gradient(ellipse, rgba(0, 0, 0, 0.2) 0%, transparent 70%);
+            filter: blur(10px);
+        }
+
+        .Car img {
+            max-width: 90%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
+            transition: transform 0.5s ease;
+        }
+
+        .Car img:hover {
+            transform: scale(1.02);
+        }
+
+        .section-nav {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 1rem;
+            margin-top: auto;
+            padding-bottom: 30px;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .section-nav h3 {
+            cursor: pointer;
+            margin-left: 3rem;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #161616;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .section-nav h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #000 0%, #333 100%);
+            transition: width 0.3s ease;
+        }
+
+        .section-nav h3:hover::after {
+            width: 100%;
+        }
+
+        .section-nav h3:hover {
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .carousel-wrapper {
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.8s ease-out, opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(-100%) scale(0.95);
+            position: relative;
+            box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+        }
+
+        .carousel-wrapper.show {
+            max-height: 83px;
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            pointer-events: all;
+        }
+
+        .nav-arrow {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-arrow:hover {
+            background: #f5f5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        #prev-step {
+            background-image: url('./Images/left.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 20px;
+        }
+
+        #next-step {
+            background-image: url('./Images/right-arrow.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 20px;
+        }
+
+        .carousel-container {
+            max-width: 1200px;
+            width: 100%;
+            border-radius: 20px;
+            position: relative;
+            padding: 10px;
+            /* background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px); */
+        }
+
+        .carousel-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            padding: 15px;
+            background: transparent;
+            gap: 15px;
+        }
+
+        .image-navigation {
+            display: flex;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .image-nav-button {
+            width: 120px;
+            height: 60px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%);
+            color: #333;
+            overflow: visible;
+            font-weight: 600;
+        }
+
+        .image-nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-nav-button:hover::before {
+            opacity: 1;
+        }
+
+        .image-nav-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-nav-button.active {
+            box-shadow: 0 12px 30px rgba(185, 185, 185, 0.4);
+            border: 2px solid #252525;
+            background: linear-gradient(135deg, #000 0%, #333 100%);
+            color: white;
+        }
+
+        .image-nav-button.prev-preview {
+            transform: rotateY(15deg) scale(0.85);
+            opacity: 0.7;
+            z-index: 1;
+        }
+
+        .image-nav-button.next-preview {
+            transform: rotateY(-15deg) scale(0.85);
+            opacity: 0.7;
+            z-index: 1;
+        }
+
+        .image-nav-button.far-preview {
+            transform: scale(0.7);
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .image-nav-button .hover-image {
+            position: absolute;
+            top: -90px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-15px);
+            width: 100px;
+            height: 80px;
+            opacity: 0;
+            transition: all 0.4s ease-out;
+            pointer-events: none;
+            z-index: 10;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            background: white;
+        }
+
+        .image-nav-button:hover .hover-image {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .right-config-panel {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100vh;
+            width: 340px;
+            background: linear-gradient(135deg, #e6eaeb 0%, #f0f4f4 100%);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            overflow-y: auto;
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .right-config-panel.show {
+            transform: translateX(0);
+        }
+
+        .panel-header {
+            display: flex;
+            margin-bottom: 20px;
+            background: rgba(241, 243, 243, 0.9);
+            backdrop-filter: blur(10px);
+            gap: 10px;
+            padding: 10px;
+            border-radius: 60px;
+            box-shadow: 0 4px 20px rgba(180, 180, 180, 0.2);
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .panel-header button {
+            border: none;
+            border-radius: 100%;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px;
+            font-weight: bold;
+            color: #333;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel-header button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .panel-header button:hover::before {
+            opacity: 1;
+        }
+
+        .panel-header button:hover {
+            background: rgba(221, 221, 221, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .panel-header button.active {
+            background: linear-gradient(135deg, #000 0%, #333 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel-header button.active img {
+            filter: brightness(0) invert(1);
+        }
+
+        .config-dropdown {
+            background: rgba(240, 242, 243, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 0 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(180, 180, 180, 0.2);
+            border: 1px solid rgba(240, 240, 240, 0.5);
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .config-dropdown.show {
+            display: block;
+        }
+
+        .config-dropdown:hover {
+            box-shadow: 0 6px 25px rgba(180, 180, 180, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .config-dropdown-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 16px 0;
+            font-weight: bold;
+            font-size: 14px;
+            color: #000;
+            transition: color 0.3s ease;
+        }
+
+        .config-dropdown-header:hover {
+            color: #333;
+        }
+
+        .config-dropdown-header img {
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .config-dropdown-header.open img {
+            transform: rotate(180deg);
+        }
+
+        .config-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .config-dropdown-content.open {
+            max-height: 1300px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-right: 10px;
+            overflow-y: auto;
+        }
+
+        .option-item {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            transition: left 0.5s;
+        }
+
+        .option-item:hover::before {
+            left: 100%;
+        }
+
+        .option-item:hover {
+            border-color: #ccc;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .option-item.selected {
+            border: 2px solid #000;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+        }
+
+        .option-sub-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .option-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .option-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .option-name {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #161616;
+            margin-top: 5px;
+            flex: 1;
+            text-align: left;
+        }
+
+        .color-dropdown {
+            position: relative;
+            margin-top: 15px;
+            background: rgba(245, 245, 245, 0.8);
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .color-dropdown-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: rgba(245, 245, 245, 0.9);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .color-dropdown-header:hover {
+            background: rgba(235, 235, 235, 0.9);
+        }
+
+        .color-dropdown-header img {
+            width: 12px;
+            height: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .color-dropdown-header.open img {
+            transform: rotate(180deg);
+        }
+
+        .color-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 0;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 8px;
+        }
+
+        .color-dropdown-content.open {
+            max-height: 300px;
+            padding: 15px 10px;
+        }
+
+        .color-swatches {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .color-swatch {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .color-swatch::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .color-swatch:hover::before {
+            opacity: 1;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .color-swatch.selected {
+            border-color: #000;
+            box-shadow: 0 0 0 3px #fff, 0 4px 15px rgba(0, 0, 0, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* Custom Color Picker Styles */
+        .custom-color-picker {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        .custom-color-picker label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .custom-color-picker input[type="color"] {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+            outline: none;
+        }
+
+        .custom-color-picker input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-color-picker input[type="color"]::-webkit-color-swatch {
+            border: none;
+            border-radius: 50%;
+        }
+
+        .custom-color-picker input[type="color"]::-moz-color-swatch {
+            border: none;
+            border-radius: 50%;
+        }
+
+        .custom-color-apply-btn {
+            background: linear-gradient(135deg, #000 0%, #333 100%);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .custom-color-apply-btn:hover {
+            background: linear-gradient(135deg, #333 0%, #555 100%);
+            transform: translateY(-1px);
+        }
+
+        /* Enhanced Mobile Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: row;
+                align-items: center;
+                text-align: center;
+                gap: 0.5rem;
+                padding: 1rem;
+            }
+
+            .logo {
+                left: 15px;
+                width: 40px;
+                height: 40px;
+            }
+
+            nav {
+                flex-direction: row;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .category-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.8rem;
+            }
+
+            h1 {
+                margin: 1rem 1.5rem 0;
+                font-size: 1.5rem;
+                text-align: left;
+                line-height: 1.3;
+                margin-left: 1.5rem;
+            }
+
+            .Car {
+                max-height: 50vh;
+            }
+
+            .Car img {
+                width: 100%;
+                max-width: 95%;
+                height: auto;
+                display: block;
+            }
+
+            .section-nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+                padding-bottom: 20px;
+            }
+
+            .section-nav h3 {
+                margin-left: 0;
+                margin-bottom: 10px;
+            }
+
+            .nav-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .image-nav-button {
+                width: 80px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+
+            .image-nav-button .hover-image {
+                top: -60px;
+                width: 50px;
+                height: 50px;
+            }
+
+            .right-config-panel {
+                width: 100%;
+                height: 60%;
+                bottom: 0;
+                top: auto;
+                transform: translateY(100%);
+                border-radius: 20px 20px 0 0;
+            }
+
+            .right-config-panel.show {
+                transform: translateY(0);
+            }
+
+            .panel-header {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .panel-header button {
+                padding: 8px 12px;
+                font-size: 0.7rem;
+                width: calc(33% - 8px);
+            }
+
+            .option-item {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .carousel-wrapper.show {
+                max-height: 70px;
+            }
+
+            .carousel-navigation {
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .config-dropdown-content.open {
+                max-height: 800px;
+            }
+        }
+
+        /* Enhanced Tablet Responsive */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            header {
+                flex-direction: row;
+                gap: 1.5rem;
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+                margin-left: 2rem;
+            }
+
+            .section-nav {
+                flex-direction: row;
+                justify-content: center;
+                gap: 0.75rem;
+                padding-bottom: 25px;
+            }
+
+            .nav-arrow {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+            }
+
+            .image-nav-button .hover-image {
+                top: -75px;
+                width: 65px;
+                height: 65px;
+            }
+
+            .right-config-panel {
+                width: 300px;
+            }
+
+            .config-dropdown-content.open {
+                max-height: 1000px;
+            }
+        }
+
+        /* Large Screen Enhancements */
+        @media (min-width: 1440px) {
+            .carousel-container {
+                max-width: 1400px;
+            }
+
+            .right-config-panel {
+                width: 380px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        /* Smooth scrollbar for config panel */
+        .right-config-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .right-config-panel::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+
+        .right-config-panel::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+        }
+
+        .right-config-panel::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Loading animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .option-item {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        /* Pulse animation for active elements */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+            }
+        }
+
+        .image-nav-button.active {
+            animation: pulse 2s infinite;
+        }
+
+        #app{
+            height: 100vh;
+            width: 100%;
+           position: absolute;
+           top: 0;
+        }
+
+        #model-heading{
+            pointer-events: all;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <header>
+        <div class="logo">ES</div>
+        <nav>
+            <button class="category-button" id="interior-button">
+                <img src="./Images/steering-wheel.png" alt="icon" />
+                INTERIOR
+            </button>
+            <button class="category-button" id="exterior-button">
+                <img src="./Images/body-repair.png">
+                EXTERIOR
+            </button>
+        </nav>
+    </header>
+    <iframe src="https://playcanv.as/e/p/jYUnWc3U/" frameborder="0" id="app"></iframe>
+    <main>
+        
+        <div style="display: flex; align-items: center; gap: -1rem; width: 100%; justify-content: flex-start;">
+            <button class="back-button" onclick="goBack()"></button>
+            <h1 id="model-title">Jetour</h1>
+        </div>
+         <!-- <iframe src="https://playcanv.as/e/p/jYUnWc3U/" frameborder="0" id="app"></iframe> -->
+        <div class="Car" style="display: none;">
+            <img src="./Images/car-model.png" alt="Car Model" id="car-image" class="car-image" />
+        </div>
+        <div class="section-nav">
+            <span id="model-heading">
+                <h3>Model</h3>
+            </span>
+            <div class="carousel-wrapper">
+                <div class="carousel-container">
+                    <div class="carousel-navigation">
+                        <button class="nav-arrow" id="prev-step"></button>
+                        <div class="image-navigation" id="image-navigation">
+                            <button class="image-nav-button active" data-index="0">
+                                1
+                                <img src="./Images/Jetour.png" alt="Car 1" class="hover-image">
+                            </button>
+                            <button class="image-nav-button next-preview" data-index="1">
+                                2
+                                <img src="./Images/RangeRover.png" alt="Car 2" class="hover-image">
+                            </button>
+                            <button class="image-nav-button far-preview" data-index="2">
+                                3
+                                <img src="./Images/Toyota Land Cruiser.png" alt="Car 3" class="hover-image">
+                            </button>
+                            <button class="image-nav-button far-preview" data-index="3">
+                                4
+                                <img src="./Images/Nissan Patrol.jpeg" alt="Car 4" class="hover-image">
+                            </button>
+                        </div>
+                        <button class="nav-arrow" id="next-step"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="right-config-panel" id="right-config-panel">
+        <div class="panel-header" id="panel-header"></div>
+        <div class="panel-content" id="panel-content"></div>
+    </div>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        class CarConfigurator {
+            constructor() {
+                this.currentStep = 0;
+                this.totalSteps = 4;
+                this.autoPlayInterval = null;
+                this.autoPlayDelay = 4000;
+                this.isAutoPlaying = false;
+                this.currentMainCategory = "";
+                this.activeDropdown = null;
+                // DOM elements
+                this.imageNavButtons = document.querySelectorAll(".image-nav-button");
+                this.prevArrow = document.getElementById("prev-step");
+                this.nextArrow = document.getElementById("next-step");
+                this.modelTitle = document.getElementById("model-title");
+                this.carouselWrapper = document.querySelector(".carousel-wrapper");
+                this.modelHeading = document.getElementById("model-heading");
+                this.carImage = document.getElementById("car-image");
+                // Configuration Panel elements
+                this.rightConfigPanel = document.getElementById("right-config-panel");
+                this.panelHeader = document.getElementById("panel-header");
+                this.panelContent = document.getElementById("panel-content");
+                // Main category buttons
+                this.interiorButton = document.getElementById("interior-button");
+                this.exteriorButton = document.getElementById("exterior-button");
+                // Model data
+                this.modelTitles = ["Jetour", "Range Rover Defender", "Toyota Land Cruiser", "Nissan Patrol"];
+                this.modelImages = [
+                    "./Images/car-model.png",
+                    "./Images/car-model.png",
+                    "./Images/car-model.png",
+                    "./Images/car-model.png"
+                ];
+                // Configuration Data
+                this.configData = {
+                    // exterior: {
+                    //     bannerOptions: [
+                    //         { id: "body", icon: "./Images/body-repair.png", name: "" },
+                    //         { id: "accessories", icon: "./Images/accessories.png", name: "" }
+                    //     ],
+                    //     dropdowns: {
+                    //         body: {
+                    //             grill: [
+                    //                 {
+                    //                     id: "grill_1", image: "./Images/pholder.png", name: "Sport Grille", colors: [
+                    //                         { color: "#000000", name: "Gloss Black" },
+                    //                         { color: "#333333", name: "Matte Black" },
+                    //                         { color: "#AAAAAA", name: "Chrome" }
+                    //                     ]
+                    //                 }
+                    //             ],
+                    //             plastic: [
+                    //                 {
+                    //                     id: "plastic_1", image: "./Images/pholder.png", name: "Body Plastic", colors: [
+                    //                         { color: "#000000", name: "Black" },
+                    //                         { color: "#CCCCCC", name: "Silver" },
+                    //                         { color: "#666666", name: "Dark Grey" }
+                    //                     ]
+                    //                 }
+                    //             ],
+                    //             paint: [
+                    //                 {
+                    //                     id: "paint_1", image: "./Images/pholder.png", name: "Car Paint", colors: [
+                    //                         { color: "#FFFFFF", name: "Pearl White" },
+                    //                         { color: "#000000", name: "Jet Black" },
+                    //                         { color: "#C0C0C0", name: "Metallic Silver" }
+                    //                     ]
+                    //                 }
+                    //             ],
+                    //             bumper: [
+                    //                 {
+                    //                     id: "bumper_1", image: "./Images/pholder.png", name: "Front Bumper", colors: [
+                    //                         { color: "#333333", name: "Graphite" },
+                    //                         { color: "#DDDDDD", name: "Light Grey" },
+                    //                         { color: "#000000", name: "Black" }
+                    //                     ]
+                    //                 }
+                    //             ],
+                    //             lights: [
+                    //                 {
+                    //                     id: "lights_1", image: "./Images/pholder.png", name: "Headlights", colors: [
+                    //                         { color: "#FFFF00", name: "Xenon White" },
+                    //                         { color: "#87CEEB", name: "LED Blue" },
+                    //                         { color: "#FFD700", name: "Halogen Yellow" }
+                    //                     ]
+                    //                 }
+                    //             ]
+                    //         },
+                    //         accessories: {
+                    //             wheels: [
+                    //                 {
+                    //                     id: "wheels_1", image: "./Images/pholder.png", name: "Alloy Wheels", colors: [
+                    //                         { color: "#C0C0C0", name: "Silver" },
+                    //                         { color: "#000000", name: "Black" },
+                    //                         { color: "#FFD700", name: "Gold" }
+                    //                     ]
+                    //                 }
+                    //             ],
+                    //             roof: [
+                    //                 {
+                    //                     id: "roof_1", image: "./Images/pholder.png", name: "Roof Rack", colors: [
+                    //                         { color: "#000000", name: "Black" },
+                    //                         { color: "#CCCCCC", name: "Silver" },
+                    //                         { color: "#8B4513", name: "Brown" }
+                    //                     ]
+                    //                 }
+                    //             ],
+                    //             side: [
+                    //                 {
+                    //                     id: "side_1", image: "./Images/pholder.png", name: "Side Steps", colors: [
+                    //                         { color: "#333333", name: "Graphite" },
+                    //                         { color: "#DDDDDD", name: "Brushed Steel" },
+                    //                         { color: "#000000", name: "Matte Black" }
+                    //                     ]
+                    //                 }
+                    //             ],
+                    //             protection: [
+                    //                 {
+                    //                     id: "protection_1", image: "./Images/pholder.png", name: "Bull Bar", colors: [
+                    //                         { color: "#333333", name: "Steel Grey" },
+                    //                         { color: "#000000", name: "Black" },
+                    //                         { color: "#DDDDDD", name: "Chrome" }
+                    //                     ]
+                    //                 }
+                    //             ],
+                    //             utility: [
+                    //                 {
+                    //                     id: "utility_1", image: "./Images/pholder.png", name: "Tow Hook", colors: [
+                    //                         { color: "#FF0000", name: "Red" },
+                    //                         { color: "#000000", name: "Black" },
+                    //                         { color: "#FFFF00", name: "Yellow" }
+                    //                     ]
+                    //                 }
+                    //             ]
+                    //         }
+                    //     }
+                    // },
+
+                    ///////////////////////////////////////
+
+                    exterior: {
+                        bannerOptions: [
+                            { id: "plastic", icon: "./Images/plastic.png", name: "" },
+                            { id: "left", icon: "./Images/car_left.png", name: "" },
+                            { id: "right", icon: "./Images/car_right.png", name: "" },
+                            { id: "grills", icon: "./Images/grill.png", name: "" },
+                            { id: "paints", icon: "./Images/car-paintingn.png", name: "" }
+                        ],
+                        dropdowns: {
+                            plastic: {
+                                plastic1: [
+                                    {
+                                        id: "plastic_1", image: "./Images/pholder.png", name: "Sport Grille", colors: [
+                                            { color: "#000000", name: "Gloss Black" },
+                                            { color: "#333333", name: "Matte Black" },
+                                            { color: "#AAAAAA", name: "Chrome" }
+                                        ]
+                                    }
+                                ],
+                                plastic2: [
+                                    {
+                                        id: "plastic_1", image: "./Images/pholder.png", name: "Body Plastic", colors: [
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#CCCCCC", name: "Silver" },
+                                            { color: "#666666", name: "Dark Grey" }
+                                        ]
+                                    }
+                                ],
+                                plastic3: [
+                                    {
+                                        id: "plastic_1", image: "./Images/pholder.png", name: "Car Paint", colors: [
+                                            { color: "#FFFFFF", name: "Pearl White" },
+                                            { color: "#000000", name: "Jet Black" },
+                                            { color: "#C0C0C0", name: "Metallic Silver" }
+                                        ]
+                                    }
+                                ],
+                                plastic4: [
+                                    {
+                                        id: "plastic_1", image: "./Images/pholder.png", name: "Front Bumper", colors: [
+                                            { color: "#333333", name: "Graphite" },
+                                            { color: "#DDDDDD", name: "Light Grey" },
+                                            { color: "#000000", name: "Black" }
+                                        ]
+                                    }
+                                ],
+                                plastic5: [
+                                    {
+                                        id: "plastic_1", image: "./Images/pholder.png", name: "Headlights", colors: [
+                                            { color: "#FFFF00", name: "Xenon White" },
+                                            { color: "#87CEEB", name: "LED Blue" },
+                                            { color: "#FFD700", name: "Halogen Yellow" }
+                                        ]
+                                    }
+                                ]
+                            },
+                            left: {
+                                left1: [
+                                    {
+                                        id: "wheels_1", image: "./Images/pholder.png", name: "Alloy Wheels", colors: [
+                                            { color: "#C0C0C0", name: "Silver" },
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#FFD700", name: "Gold" }
+                                        ]
+                                    }
+                                ],
+                                left2: [
+                                    {
+                                        id: "roof_1", image: "./Images/pholder.png", name: "Roof Rack", colors: [
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#CCCCCC", name: "Silver" },
+                                            { color: "#8B4513", name: "Brown" }
+                                        ]
+                                    }
+                                ],
+                                left3: [
+                                    {
+                                        id: "side_1", image: "./Images/pholder.png", name: "Side Steps", colors: [
+                                            { color: "#333333", name: "Graphite" },
+                                            { color: "#DDDDDD", name: "Brushed Steel" },
+                                            { color: "#000000", name: "Matte Black" }
+                                        ]
+                                    }
+                                ],
+                                left4: [
+                                    {
+                                        id: "protection_1", image: "./Images/pholder.png", name: "Bull Bar", colors: [
+                                            { color: "#333333", name: "Steel Grey" },
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#DDDDDD", name: "Chrome" }
+                                        ]
+                                    }
+                                ],
+                                left5: [
+                                    {
+                                        id: "utility_1", image: "./Images/pholder.png", name: "Tow Hook", colors: [
+                                            { color: "#FF0000", name: "Red" },
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#FFFF00", name: "Yellow" }
+                                        ]
+                                    }
+                                ]
+                            },
+
+                            right: {
+                                right1: [
+                                    {
+                                        id: "right_1", image: "./Images/pholder.png", name: "Alloy Wheels", colors: [
+                                            { color: "#C0C0C0", name: "Silver" },
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#FFD700", name: "Gold" }
+                                        ]
+                                    }
+                                ],
+                                right2: [
+                                    {
+                                        id: "right_1", image: "./Images/pholder.png", name: "Roof Rack", colors: [
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#CCCCCC", name: "Silver" },
+                                            { color: "#8B4513", name: "Brown" }
+                                        ]
+                                    }
+                                ],
+                                right3: [
+                                    {
+                                        id: "right_1", image: "./Images/pholder.png", name: "Side Steps", colors: [
+                                            { color: "#333333", name: "Graphite" },
+                                            { color: "#DDDDDD", name: "Brushed Steel" },
+                                            { color: "#000000", name: "Matte Black" }
+                                        ]
+                                    }
+                                ],
+                                right4: [
+                                    {
+                                        id: "right_1", image: "./Images/pholder.png", name: "Bull Bar", colors: [
+                                            { color: "#333333", name: "Steel Grey" },
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#DDDDDD", name: "Chrome" }
+                                        ]
+                                    }
+                                ],
+                                right5: [
+                                    {
+                                        id: "right_1", image: "./Images/pholder.png", name: "Tow Hook", colors: [
+                                            { color: "#FF0000", name: "Red" },
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#FFFF00", name: "Yellow" }
+                                        ]
+                                    }
+                                ]
+                            },
+
+                            grills: {
+                                grills1: [
+                                    {
+                                        id: "grills_1", image: "./Images/pholder.png", name: "Alloy Wheels", colors: [
+                                            { color: "#C0C0C0", name: "Silver" },
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#FFD700", name: "Gold" }
+                                        ]
+                                    }
+                                ],
+                                grills2: [
+                                    {
+                                        id: "grills_1", image: "./Images/pholder.png", name: "Roof Rack", colors: [
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#CCCCCC", name: "Silver" },
+                                            { color: "#8B4513", name: "Brown" }
+                                        ]
+                                    }
+                                ],
+                                grills3: [
+                                    {
+                                        id: "grills_1", image: "./Images/pholder.png", name: "Side Steps", colors: [
+                                            { color: "#333333", name: "Graphite" },
+                                            { color: "#DDDDDD", name: "Brushed Steel" },
+                                            { color: "#000000", name: "Matte Black" }
+                                        ]
+                                    }
+                                ],
+                                grills4: [
+                                    {
+                                        id: "grills_1", image: "./Images/pholder.png", name: "Bull Bar", colors: [
+                                            { color: "#333333", name: "Steel Grey" },
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#DDDDDD", name: "Chrome" }
+                                        ]
+                                    }
+                                ],
+                                grills5: [
+                                    {
+                                        id: "grills_1", image: "./Images/pholder.png", name: "Tow Hook", colors: [
+                                            { color: "#FF0000", name: "Red" },
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#FFFF00", name: "Yellow" }
+                                        ]
+                                    }
+                                ]
+                            },
+
+                            paints: {
+                                paints1: [
+                                    {
+                                        id: "paints_1", image: "./Images/pholder.png", name: "Alloy Wheels", colors: [
+                                            { color: "#C0C0C0", name: "Silver" },
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#FFD700", name: "Gold" }
+                                        ]
+                                    }
+                                ],
+                                paints2: [
+                                    {
+                                        id: "paints_1", image: "./Images/pholder.png", name: "Roof Rack", colors: [
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#CCCCCC", name: "Silver" },
+                                            { color: "#8B4513", name: "Brown" }
+                                        ]
+                                    }
+                                ],
+                                paints3: [
+                                    {
+                                        id: "paints_1", image: "./Images/pholder.png", name: "Side Steps", colors: [
+                                            { color: "#333333", name: "Graphite" },
+                                            { color: "#DDDDDD", name: "Brushed Steel" },
+                                            { color: "#000000", name: "Matte Black" }
+                                        ]
+                                    }
+                                ],
+                                paints4: [
+                                    {
+                                        id: "paints_1", image: "./Images/pholder.png", name: "Bull Bar", colors: [
+                                            { color: "#333333", name: "Steel Grey" },
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#DDDDDD", name: "Chrome" }
+                                        ]
+                                    }
+                                ],
+                                paints5: [
+                                    {
+                                        id: "paints_1", image: "./Images/pholder.png", name: "Tow Hook", colors: [
+                                            { color: "#FF0000", name: "Red" },
+                                            { color: "#000000", name: "Black" },
+                                            { color: "#FFFF00", name: "Yellow" }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    },
+
+                    /////////////////////////////////////////////////
+
+                    interior: {
+                        bannerOptions: [
+                            { id: "seats", icon: "./Images/seats.png", name: "" },
+                            { id: "plastic", icon: "./Images/plastic.png", name: "" }
+                        ],
+                        dropdowns: {
+                            seats: {
+                                seat1: [
+                                    {
+                                        id: "seat1_1", image: "./Images/pholder.png", name: "Front Leather Seats", colors: [
+                                            { color: "#2F2F2F", name: "Carbon Black" },
+                                            { color: "#8B0000", name: "Deep Red" },
+                                            { color: "#F5F5F5", name: "Cream White" }
+                                        ]
+                                    }
+                                ],
+                                seat2: [
+                                    {
+                                        id: "seat2_1", image: "./Images/pholder.png", name: "Rear Leather Seats", colors: [
+                                            { color: "#2F2F2F", name: "Carbon Black" },
+                                            { color: "#8B0000", name: "Deep Red" },
+                                            { color: "#F5F5F5", name: "Cream White" }
+                                        ]
+                                    }
+                                ],
+                                seat3: [
+                                    {
+                                        id: "seat3_1", image: "./Images/pholder.png", name: "Seat Belts", colors: [
+                                            { color: "#2F2F2F", name: "Carbon Black" },
+                                            { color: "#8B0000", name: "Deep Red" },
+                                            { color: "#F5F5F5", name: "Cream White" }
+                                        ]
+                                    }
+                                ],
+                                seat4: [
+                                    {
+                                        id: "seat4_1", image: "./Images/pholder.png", name: "Headrests", colors: [
+                                            { color: "#2F2F2F", name: "Carbon Black" },
+                                            { color: "#8B0000", name: "Deep Red" },
+                                            { color: "#F5F5F5", name: "Cream White" }
+                                        ]
+                                    }
+                                ],
+                                seat5: [
+                                    {
+                                        id: "seat5_1", image: "./Images/pholder.png", name: "Armrests", colors: [
+                                            { color: "#2F2F2F", name: "Carbon Black" },
+                                            { color: "#8B0000", name: "Deep Red" },
+                                            { color: "#F5F5F5", name: "Cream White" }
+                                        ]
+                                    }
+                                ]
+                            },
+                            plastic: {
+                                plastic1: [
+                                    {
+                                        id: "plastic1_1", image: "./Images/pholder.png", name: "Dash Trim", colors: [
+                                            { color: "#333333", name: "Matte Black" },
+                                            { color: "#666666", name: "Dark Grey" },
+                                            { color: "#999999", name: "Light Grey" }
+                                        ]
+                                    }
+                                ],
+                                plastic2: [
+                                    {
+                                        id: "plastic2_1", image: "./Images/pholder.png", name: "Door Panels", colors: [
+                                            { color: "#1C2526", name: "Gloss Black" },
+                                            { color: "#4682B4", name: "Metallic Blue" },
+                                            { color: "#2F4F4F", name: "Dark Slate" }
+                                        ]
+                                    }
+                                ],
+                                plastic3: [
+                                    {
+                                        id: "plastic3_1", image: "./Images/pholder.png", name: "Center Console", colors: [
+                                            { color: "#1C2526", name: "Gloss Black" },
+                                            { color: "#4682B4", name: "Metallic Blue" },
+                                            { color: "#2F4F4F", name: "Dark Slate" }
+                                        ]
+                                    }
+                                ],
+                                plastic4: [
+                                    {
+                                        id: "plastic4_1", image: "./Images/pholder.png", name: "Steering Wheel", colors: [
+                                            { color: "#1C2526", name: "Gloss Black" },
+                                            { color: "#4682B4", name: "Metallic Blue" },
+                                            { color: "#2F4F4F", name: "Dark Slate" }
+                                        ]
+                                    }
+                                ],
+                                plastic5: [
+                                    {
+                                        id: "plastic5_1", image: "./Images/pholder.png", name: "Gear Shifter", colors: [
+                                            { color: "#1C2526", name: "Gloss Black" },
+                                            { color: "#4682B4", name: "Metallic Blue" },
+                                            { color: "#2F4F4F", name: "Dark Slate" }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                };
+                this.init();
+            }
+            init() {
+                this.bindEvents();
+                this.exteriorButton.classList.remove("active");
+                this.interiorButton.classList.remove("active");
+                this.hideConfigPanel();
+                this.carouselWrapper.classList.remove("show");
+            }
+            bindEvents() {
+                this.imageNavButtons.forEach((btn, index) => {
+                    btn.addEventListener("click", () => {
+                        this.goToStep(index);
+                    });
+                });
+                this.prevArrow.addEventListener("click", () => this.goToPrevious());
+                this.nextArrow.addEventListener("click", () => this.goToNext());
+                document.addEventListener("keydown", (e) => {
+                    if (e.key === "ArrowLeft") this.goToPrevious();
+                    else if (e.key === "ArrowRight") this.goToNext();
+                });
+                const carouselContainer = document.querySelector(".carousel-container");
+                if (carouselContainer) {
+                    carouselContainer.addEventListener("mouseenter", () => {
+                        if (this.isAutoPlaying) this.pauseAutoPlay();
+                    });
+                    carouselContainer.addEventListener("mouseleave", () => { });
+                }
+                this.modelHeading.addEventListener("click", () => {
+                    this.carouselWrapper.classList.toggle("show");
+                    this.updateDisplay();
+                    if (this.carouselWrapper.classList.contains("show")) {
+                        this.startAutoPlay();
+                        this.hideConfigPanel();
+                        document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+                    } else {
+                        this.pauseAutoPlay();
+                        if (this.currentMainCategory) {
+                            this.updateCategoryDisplay(this.currentMainCategory);
+                        }
+                    }
+                });
+                this.exteriorButton.addEventListener("click", () => this.updateCategoryDisplay("exterior"));
+                this.interiorButton.addEventListener("click", () => this.updateCategoryDisplay("interior"));
+            }
+            goToStep(step) {
+                if (step < 0) step = this.totalSteps - 1;
+                else if (step >= this.totalSteps) step = 0;
+                this.currentStep = step;
+                this.updateDisplay();
+                this.startAutoPlay();
+            }
+            goToNext() {
+                this.goToStep(this.currentStep + 1);
+            }
+            goToPrevious() {
+                this.goToStep(this.currentStep - 1);
+            }
+            updateDisplay() {
+                this.modelTitle.textContent = this.modelTitles[this.currentStep];
+                this.carImage.src = this.modelImages[this.currentStep];
+                this.imageNavButtons.forEach((btn, index) => {
+                    btn.classList.remove("active", "prev-preview", "next-preview", "far-preview");
+                    if (index === this.currentStep) {
+                        btn.classList.add("active");
+                    } else if (index === (this.currentStep - 1 + this.totalSteps) % this.totalSteps) {
+                        btn.classList.add("prev-preview");
+                    } else if (index === (this.currentStep + 1) % this.totalSteps) {
+                        btn.classList.add("next-preview");
+                    } else {
+                        btn.classList.add("far-preview");
+                    }
+                });
+            }
+            startAutoPlay() {
+                this.pauseAutoPlay();
+                this.isAutoPlaying = true;
+                this.autoPlayInterval = setInterval(() => {
+                    this.goToNext();
+                }, this.autoPlayDelay);
+            }
+            pauseAutoPlay() {
+                if (this.autoPlayInterval) {
+                    clearInterval(this.autoPlayInterval);
+                    this.autoPlayInterval = null;
+                    this.isAutoPlaying = false;
+                }
+            }
+            hideConfigPanel() {
+                this.rightConfigPanel.classList.remove("show");
+            }
+            showConfigPanel() {
+                this.rightConfigPanel.classList.add("show");
+            }
+            updateCategoryDisplay(category) {
+                if (this.currentMainCategory === category && this.rightConfigPanel.classList.contains("show")) {
+                    this.hideConfigPanel();
+                    document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+                    this.currentMainCategory = "";
+                    return;
+                }
+                this.currentMainCategory = category;
+                document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+                if (category === "interior") {
+                    this.interiorButton.classList.add("active");
+                } else if (category === "exterior") {
+                    this.exteriorButton.classList.add("active");
+                }
+                if (this.carouselWrapper.classList.contains("show")) {
+                    this.carouselWrapper.classList.remove("show");
+                    this.pauseAutoPlay();
+                }
+                this.hideConfigPanel();
+                setTimeout(() => {
+                    this.renderPanelContent(category);
+                    this.showConfigPanel();
+                }, 150);
+            }
+            renderPanelContent(category) {
+                const categoryData = this.configData[category];
+                if (!categoryData) return;
+                this.panelHeader.innerHTML = '';
+                this.panelContent.innerHTML = '';
+                this.activeDropdown = null;
+
+                // Create header buttons (only 2 buttons)
+                categoryData.bannerOptions.forEach(option => {
+                    const button = document.createElement("button");
+                    button.innerHTML = `<img src="${option.icon}" style="width: 20px; height: 20px;"> ${option.name}`;
+                    button.dataset.dropdownId = option.id;
+                    button.addEventListener("click", () => {
+                        this.togglePanelDropdown(option.id);
+                    });
+                    this.panelHeader.appendChild(button);
+                });
+
+                // Create dropdown content for each main option (seats or plastic)
+                for (const mainDropdownKey in categoryData.dropdowns) {
+                    const mainDropdownData = categoryData.dropdowns[mainDropdownKey];
+
+                    // Create container for all sub-dropdowns of this main category
+                    const mainContainer = document.createElement("div");
+                    mainContainer.classList.add("main-dropdown-container");
+                    mainContainer.dataset.dropdownId = mainDropdownKey;
+                    mainContainer.style.display = "none";
+
+                    // Create 5 sub-dropdowns for each main category
+                    for (const subDropdownKey in mainDropdownData) {
+                        const subDropdownOptions = mainDropdownData[subDropdownKey];
+                        const subDropdownName = subDropdownKey.toUpperCase();
+
+                        const dropdownDiv = document.createElement("div");
+                        dropdownDiv.classList.add("config-dropdown", "show");
+
+                        const dropdownHeader = document.createElement("div");
+                        dropdownHeader.classList.add("config-dropdown-header");
+                        dropdownHeader.innerHTML = `<span>${subDropdownName}</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">`;
+                        dropdownHeader.dataset.dropdownId = subDropdownKey;
+
+                        const dropdownContent = document.createElement("div");
+                        dropdownContent.classList.add("config-dropdown-content");
+                        dropdownContent.id = `dropdown-content-${subDropdownKey}`;
+
+                        subDropdownOptions.forEach(option => {
+                            const item = document.createElement("div");
+                            item.classList.add("option-item");
+                            item.dataset.optionId = option.id;
+
+                            let itemContent = `
+                                <div class="option-sub-container">
+                                    <img src="${option.image}" alt="${option.name}">
+                                    <span class="option-name">${option.name}</span>
+                                </div>
+                            `; 
+
+                            if (option.colors && option.colors.length > 0) {
+                                itemContent += `
+                                    <div class="color-dropdown">
+                                        <div class="color-dropdown-header">
+                                            <span>Select Color</span>
+                                            <img src="./Images/down-arrow.png" style="width: 12px; height: 12px;">
+                                        </div>
+                                        <div class="color-dropdown-content">
+                                            <div class="color-swatches">
+                                                ${option.colors.map(color => `
+                                                    <div class="color-swatch"
+                                                          style="background-color: ${color.color}"
+                                                          title="${color.name}"
+                                                         id="${color.name.toLowerCase().replace(' ', '-')}">
+                                                    </div>
+                                                `).join('')}
+                                            </div>
+                                            <div class="custom-color-picker">
+                                                <label>Custom:</label>
+                                                <input type="color" value="#000000" class="custom-color-input">
+                                                <button class="custom-color-apply-btn">Apply</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+
+                            item.innerHTML = itemContent;
+
+                            // Add event listeners for the item
+                            item.addEventListener("click", (e) => {
+                                if (!e.target.closest('.color-dropdown')) {
+                                    this.selectConfigOption(item, subDropdownKey, option.id);
+                                }
+                            });
+
+                            // Add color dropdown functionality
+                            const colorHeader = item.querySelector('.color-dropdown-header');
+                            if (colorHeader) {
+                                colorHeader.addEventListener("click", (e) => {
+                                    e.stopPropagation();
+                                    const content = colorHeader.nextElementSibling;
+                                    content.classList.toggle('open');
+                                    colorHeader.classList.toggle('open');
+
+                                    document.querySelectorAll('.color-dropdown-content.open').forEach(dropdown => {
+                                        if (dropdown !== content && dropdown.closest('.option-item') !== item) {
+                                            dropdown.classList.remove('open');
+                                            dropdown.previousElementSibling.classList.remove('open');
+                                        }
+                                    });
+                                });
+                            }
+
+                            // Handle color selection
+                            item.querySelectorAll('.color-swatch').forEach(swatch => {
+                                swatch.addEventListener("click", (e) => {
+                                    e.stopPropagation();
+                                    item.querySelectorAll('.color-swatch').forEach(s => {
+                                        s.classList.remove('selected');
+                                    });
+                                    e.target.classList.add('selected');
+                                    console.log(`Selected color ${e.target.title} for ${option.name}`);
+                                });
+                            });
+
+                            // Handle custom color picker
+                            const customColorInput = item.querySelector('.custom-color-input');
+                            const applyBtn = item.querySelector('.custom-color-apply-btn');
+
+                            if (customColorInput && applyBtn) {
+                                applyBtn.addEventListener("click", (e) => {
+                                    e.stopPropagation();
+                                    const customColor = customColorInput.value;
+
+                                    item.querySelectorAll('.color-swatch').forEach(s => {
+                                        s.classList.remove('selected');
+                                    });
+
+                                    let customIndicator = item.querySelector('.custom-color-indicator');
+                                    if (!customIndicator) {
+                                        customIndicator = document.createElement('div');
+                                        customIndicator.className = 'color-swatch custom-color-indicator selected';
+                                        customIndicator.title = 'Custom Color';
+                                        item.querySelector('.color-swatches').appendChild(customIndicator);
+                                    }
+
+                                    customIndicator.style.backgroundColor = customColor;
+                                    customIndicator.classList.add('selected');
+
+                                    console.log(`Applied custom color ${customColor} for ${option.name}`);
+                                });
+                            }
+
+                            dropdownContent.appendChild(item);
+                        });
+
+                        dropdownDiv.appendChild(dropdownHeader);
+                        dropdownDiv.appendChild(dropdownContent);
+                        mainContainer.appendChild(dropdownDiv);
+
+                        // Add click handler for sub-dropdown headers
+                        dropdownHeader.addEventListener("click", () => {
+                            this.toggleDropdown(subDropdownKey);
+                        });
+                    }
+
+                    this.panelContent.appendChild(mainContainer);
+                }
+            }
+            togglePanelDropdown(dropdownId) {
+                // Hide all main containers first
+                this.panelContent.querySelectorAll('.main-dropdown-container').forEach(container => {
+                    container.style.display = 'none';
+                });
+
+                // Remove active state from all buttons
+                this.panelHeader.querySelectorAll('button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                // Show the selected main container and activate button
+                const targetContainer = this.panelContent.querySelector(`[data-dropdown-id="${dropdownId}"]`);
+                const targetButton = this.panelHeader.querySelector(`[data-dropdown-id="${dropdownId}"]`);
+
+                if (this.activeDropdown === dropdownId) {
+                    // If clicking the same button, hide it
+                    this.activeDropdown = null;
+                } else {
+                    // Show the new container
+                    if (targetContainer) {
+                        targetContainer.style.display = 'block';
+                    }
+                    if (targetButton) {
+                        targetButton.classList.add('active');
+                    }
+                    this.activeDropdown = dropdownId;
+                }
+            }
+            toggleDropdown(dropdownId) {
+                const header = this.panelContent.querySelector(`.config-dropdown-header[data-dropdown-id="${dropdownId}"]`);
+                const content = document.getElementById(`dropdown-content-${dropdownId}`);
+
+                if (header && content) {
+                    const isOpen = content.classList.contains("open");
+
+                    document.querySelectorAll('.config-dropdown-content.open').forEach(openContent => {
+                        openContent.classList.remove("open");
+                        openContent.previousElementSibling.classList.remove("open");
+                    });
+
+                    if (!isOpen) {
+                        content.classList.add("open");
+                        header.classList.add("open");
+                    }
+                }
+            }
+
+            selectConfigOption(clickedItem, dropdownKey, optionId) {
+                clickedItem.closest('.config-dropdown-content').querySelectorAll('.option-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+
+                clickedItem.classList.add('selected');
+                console.log(`Selected ${dropdownKey} option: ${optionId}`);
+            }
+        }
+        document.addEventListener("DOMContentLoaded", () => {
+            new CarConfigurator();
+        });
+    </script>
+</body>
+
+</html>

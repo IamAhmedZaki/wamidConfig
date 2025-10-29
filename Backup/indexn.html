@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Configurator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+            @font-face {
+        font-family: 'Ulm Grotesk';
+        src: url('./Font/FontsFreeNetUlmGrotesk.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        background: linear-gradient(135deg, #e2e7e7 0%, #f0f4f4 100%);
+        font-family: 'Ulm Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        overflow: hidden;
+        height: 100vh;
+        font-weight: 600;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 35px;
+        position: relative;
+        z-index: 10;
+    }
+
+    .back-button {
+        border: none;
+        font-size: 1.2rem;
+        color: #161616;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        /* background-image: url('./Images/left-arrow.png'); */
+        background-image: url('../Images/left-arrow.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 20px;
+        z-index: 111;
+    }
+
+    .back-button:hover {
+        background-color: #f5f5f5;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .back-button:active {
+        transform: translateY(0);
+    }
+
+    .logo {
+        background: linear-gradient(135deg, #000 0%, #333 100%);
+        color: white;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        position: absolute;
+        left: 31px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+        transform: scale(1.05);
+    }
+
+    nav {
+        display: flex;
+        gap: 1rem;
+        height: 50px;
+    }
+
+    .category-button {
+        border: none;
+        border-radius: 50px;
+        padding: 1.1rem 2.2rem;
+        background: rgba(238, 242, 243, 0.9);
+        backdrop-filter: blur(10px);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: #161616;
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .category-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        transition: left 0.5s;
+    }
+
+    .category-button:hover::before {
+        left: 100%;
+    }
+
+    .category-button:hover {
+        background: rgba(221, 221, 221, 0.9);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .category-button img {
+        filter: none;
+        transition: filter 0.3s;
+        width: 20px;
+        height: 20px;
+    }
+
+    .category-button.active {
+        background: linear-gradient(135deg, #000 0%, #333 100%);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .category-button.active img {
+        filter: brightness(0) invert(1);
+    }
+
+    main {
+        position: relative;
+        text-align: center;
+        padding: 0 2rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        max-height: calc(100vh - 140px);
+        pointer-events: none;
+    }
+
+    h1 {
+        text-align: left;
+        font-size: 2rem;
+        margin-left: 3rem;
+        align-self: flex-start;
+        background: linear-gradient(135deg, #161616 0%, #444 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .Car {
+        overflow: hidden;
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        position: relative;
+        max-height: 60vh;
+    }
+
+    .Car::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        height: 20px;
+        background: radial-gradient(ellipse, rgba(0, 0, 0, 0.2) 0%, transparent 70%);
+        filter: blur(10px);
+    }
+
+    .Car img {
+        max-width: 90%;
+        max-height: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
+        transition: transform 0.5s ease;
+    }
+
+    .Car img:hover {
+        transform: scale(1.02);
+    }
+
+    .section-nav {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 1rem;
+        margin-top: auto;
+        padding-bottom: 30px;
+        width: 100%;
+        flex-shrink: 0;
+    }
+
+    .section-nav h3 {
+        cursor: pointer;
+        margin-left: 3rem;
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #161616;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .section-nav h3::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(135deg, #000 0%, #333 100%);
+        transition: width 0.3s ease;
+    }
+
+    .section-nav h3:hover::after {
+        width: 100%;
+    }
+
+    .section-nav h3:hover {
+        color: #000;
+        transform: translateY(-2px);
+    }
+
+    .carousel-wrapper {
+        max-height: 0;
+        opacity: 0;
+        transition: max-height 0.8s ease-out, opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: translateX(-100%) scale(0.95);
+        position: relative;
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+
+    .carousel-wrapper.show {
+        max-height: 83px;
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        pointer-events: all;
+    }
+
+    .nav-arrow {
+        width: 50px;
+        height: 50px;
+        background: white;
+        border: none;
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-arrow:hover {
+        background: #f5f5f5;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    #prev-step {
+        background-image: url('../Images/left.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 20px;
+    }
+
+    #next-step {
+        background-image: url('../Images/right-arrow.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 20px;
+    }
+
+    .carousel-container {
+        max-width: 1200px;
+        width: 100%;
+        border-radius: 20px;
+        position: relative;
+        padding: 10px;
+    }
+
+    .carousel-navigation {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        padding: 15px;
+        background: transparent;
+        gap: 15px;
+    }
+
+    .image-navigation {
+        display: flex;
+        align-items: center;
+        perspective: 1000px;
+    }
+
+    .image-nav-button {
+        width: 120px;
+        height: 60px;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transform-style: preserve-3d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%);
+        color: #333;
+        overflow: visible;
+        font-weight: 600;
+    }
+
+    .image-nav-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 50px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .image-nav-button:hover::before {
+        opacity: 1;
+    }
+
+    .image-nav-button:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .image-nav-button.active {
+        box-shadow: 0 12px 30px rgba(185, 185, 185, 0.4);
+        border: 2px solid #252525;
+        background: linear-gradient(135deg, #000 0%, #333 100%);
+        color: white;
+    }
+
+    .image-nav-button.prev-preview {
+        transform: rotateY(15deg) scale(0.85);
+        opacity: 0.7;
+        z-index: 1;
+    }
+
+    .image-nav-button.next-preview {
+        transform: rotateY(-15deg) scale(0.85);
+        opacity: 0.7;
+        z-index: 1;
+    }
+
+    .image-nav-button.far-preview {
+        transform: scale(0.7);
+        opacity: 0.5;
+        z-index: 0;
+    }
+
+    .image-nav-button .hover-image {
+        position: absolute;
+        top: -90px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-15px);
+        width: 100px;
+        height: 80px;
+        opacity: 0;
+        transition: all 0.4s ease-out;
+        pointer-events: none;
+        z-index: 10;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        background: white;
+    }
+
+    .image-nav-button:hover .hover-image {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .right-config-panel {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100vh;
+        width: 340px;
+        background: linear-gradient(135deg, #e6eaeb 0%, #f0f4f4 100%);
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        box-sizing: border-box;
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 100;
+        overflow-y: auto;
+        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(10px);
+    }
+
+    .right-config-panel.show {
+        transform: translateX(0);
+    }
+
+    .panel-header {
+        display: flex;
+        margin-bottom: 20px;
+        background: rgba(241, 243, 243, 0.9);
+        backdrop-filter: blur(10px);
+        gap: 10px;
+        padding: 10px;
+        border-radius: 60px;
+        box-shadow: 0 4px 20px rgba(180, 180, 180, 0.2);
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .panel-header button {
+        border: none;
+        border-radius: 100%;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 12px;
+        font-weight: bold;
+        color: #333;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .panel-header button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 100%;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .panel-header button:hover::before {
+        opacity: 1;
+    }
+
+    .panel-header button:hover {
+        background: rgba(221, 221, 221, 0.8);
+        transform: translateY(-2px);
+    }
+
+    .panel-header button.active {
+        background: linear-gradient(135deg, #000 0%, #333 100%);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .panel-header button.active img {
+        filter: brightness(0) invert(1);
+    }
+
+    .config-dropdown {
+        background: rgba(240, 242, 243, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 0 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 20px rgba(180, 180, 180, 0.2);
+        border: 1px solid rgba(240, 240, 240, 0.5);
+        transition: all 0.3s ease;
+        display: none;
+    }
+
+    .config-dropdown.show {
+        display: block;
+    }
+
+    .config-dropdown:hover {
+        box-shadow: 0 6px 25px rgba(180, 180, 180, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .config-dropdown-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        padding: 16px 0;
+        font-weight: bold;
+        font-size: 14px;
+        color: #000;
+        transition: color 0.3s ease;
+    }
+
+    .config-dropdown-header:hover {
+        color: #333;
+    }
+
+    .config-dropdown-header img {
+        transition: transform 0.3s ease;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+
+    .config-dropdown-header.open img {
+        transform: rotate(180deg);
+    }
+
+    .config-dropdown-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .config-dropdown-content.open {
+        max-height: 1300px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-right: 10px;
+        overflow-y: auto;
+    }
+
+    .option-item {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 12px;
+        border: 2px solid transparent;
+        background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .option-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+        transition: left 0.5s;
+    }
+
+    .option-item:hover::before {
+        left: 100%;
+    }
+
+    .option-item:hover {
+        border-color: #ccc;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        transform: translateY(-3px);
+    }
+
+    .option-item.selected {
+        border: 2px solid #000;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+    }
+
+    .option-sub-container {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 10px;
+        align-items: center;
+    }
+
+    .option-item img {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .option-item:hover img {
+        transform: scale(1.05);
+    }
+
+    .option-name {
+        font-size: 0.95rem;
+        font-weight: bold;
+        color: #161616;
+        margin-top: 5px;
+        flex: 1;
+        text-align: left;
+    }
+
+    .color-dropdown {
+        position: relative;
+        margin-top: 15px;
+        background: rgba(245, 245, 245, 0.8);
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .color-dropdown-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        background: rgba(245, 245, 245, 0.9);
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .color-dropdown-header:hover {
+        background: rgba(235, 235, 235, 0.9);
+    }
+
+    .color-dropdown-header img {
+        width: 12px;
+        height: 12px;
+        transition: transform 0.3s ease;
+    }
+
+    .color-dropdown-header.open img {
+        transform: rotate(180deg);
+    }
+
+    .color-dropdown-content {
+        max-height: 0;
+        overflow: hidden;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 0;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        margin-top: 8px;
+    }
+
+    .color-dropdown-content.open {
+        max-height: 300px;
+        padding: 15px 10px;
+    }
+
+    .color-swatches {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        width: 100%;
+        align-items: center;
+    }
+
+    .color-swatch {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .color-swatch::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+    }
+
+    .color-swatch:hover::before {
+        opacity: 1;
+    }
+
+    .color-swatch:hover {
+        transform: scale(1.15);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .color-swatch.selected {
+        border-color: #000;
+        box-shadow: 0 0 0 3px #fff, 0 4px 15px rgba(0, 0, 0, 0.3);
+        transform: scale(1.1);
+    }
+
+    .custom-color-picker {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 10px;
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 6px;
+        border: 1px solid #ddd;
+    }
+
+    .custom-color-picker label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #333;
+        white-space: nowrap;
+    }
+
+    .custom-color-picker input[type="color"] {
+        width: 30px;
+        height: 30px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        background: none;
+        padding: 0;
+        outline: none;
+    }
+
+    .custom-color-picker input[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 0;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .custom-color-picker input[type="color"]::-webkit-color-swatch {
+        border: none;
+        border-radius: 50%;
+    }
+
+    .custom-color-picker input[type="color"]::-moz-color-swatch {
+        border: none;
+        border-radius: 50%;
+    }
+
+    .custom-color-apply-btn {
+        background: linear-gradient(135deg, #000 0%, #333 100%);
+        color: white;
+        border: none;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+    }
+
+    .custom-color-apply-btn:hover {
+        background: linear-gradient(135deg, #333 0%, #555 100%);
+        transform: translateY(-1px);
+    }
+
+    @media (max-width: 768px) {
+        header {
+            flex-direction: row;
+            align-items: center;
+            text-align: center;
+            gap: 0.5rem;
+            padding: 1rem;
+        }
+
+        .logo {
+            left: 15px;
+            width: 35px;
+            height: 35px;
+        }
+
+        nav {
+            flex-direction: row;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-button {
+            /* padding: 0.8rem 1.5rem; */
+            /* font-size: 0.8rem; */
+            padding: 8px 15px;
+            font-size: 12px;
+        }
+
+        h1 {
+            /* margin: 1rem 1.5rem 0; */
+            font-size: 1.5rem;
+            text-align: left;
+            line-height: 1.3;
+            margin-left: 1.5rem;
+        }
+
+        .Car {
+            max-height: 50vh;
+        }
+
+        .Car img {
+            width: 100%;
+            max-width: 95%;
+            height: auto;
+            display: block;
+        }
+
+        .section-nav {
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding-bottom: 20px;
+        }
+
+        .section-nav h3 {
+            margin-left: 0;
+            margin-bottom: 10px;
+        }
+
+        .nav-arrow {
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+        }
+
+        .image-nav-button {
+            width: 80px;
+            height: 45px;
+            font-size: 1.2rem;
+        }
+
+        .image-nav-button .hover-image {
+            top: -60px;
+            width: 50px;
+            height: 50px;
+        }
+
+        .right-config-panel {
+            width: 100%;
+            /* height: 60%; */
+            height: 40%;
+            bottom: 0;
+            top: auto;
+            transform: translateY(100%);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .right-config-panel.show {
+            transform: translateY(0);
+        }
+
+        .panel-header {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .panel-header button {
+            padding: 8px 12px;
+            font-size: 0.7rem;
+            /* width: calc(33% - 8px); */
+        }
+
+        .option-item {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .carousel-wrapper.show {
+            max-height: 70px;
+        }
+
+        .carousel-navigation {
+            /* gap: 10px;
+            padding: 10px; */
+            gap: 2px;
+            padding: 5px;
+            width: 370px;
+
+        }
+
+        .config-dropdown-content.open {
+            max-height: 800px;
+        }
+
+        .back-button {
+            width: 35px;
+            height: 35px;
+        }
+
+        .image-navigation {
+            display: flex;
+            align-items: center;
+            perspective: 1000px;
+            width: 276px;
+        }
+
+
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+        header {
+            flex-direction: row;
+            gap: 1.5rem;
+            padding: 25px;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            margin-left: 2rem;
+        }
+
+        .section-nav {
+            flex-direction: row;
+            justify-content: center;
+            gap: 0.75rem;
+            padding-bottom: 25px;
+        }
+
+        .nav-arrow {
+            width: 45px;
+            height: 45px;
+            font-size: 1.1rem;
+        }
+
+        .image-nav-button .hover-image {
+            top: -75px;
+            width: 65px;
+            height: 65px;
+        }
+
+        .right-config-panel {
+            width: 300px;
+        }
+
+        .config-dropdown-content.open {
+            max-height: 1000px;
+        }
+    }
+
+    @media (min-width: 1440px) {
+        .carousel-container {
+            max-width: 1400px;
+        }
+
+        .right-config-panel {
+            width: 380px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+        }
+    }
+
+    .right-config-panel::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .right-config-panel::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+    }
+
+    .right-config-panel::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 3px;
+    }
+
+    .right-config-panel::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .option-item {
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4);
+        }
+
+        70% {
+            box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+    }
+
+    .image-nav-button.active {
+        animation: pulse 2s infinite;
+    }
+
+    #app {
+        height: 100vh;
+        width: 100%;
+        position: absolute;
+        top: 0;
+    }
+
+    #model-heading {
+        pointer-events: all;
+    }
+
+
+    /* ////////////////////////////////////////////////////////////////////////// */
+
+    /* Small mobile devices (max-width: 480px) */
+@media (max-width: 480px) {
+    header {
+        padding: 10px;
+        gap: 0.3rem;
+    }
+
+    .back-button {
+        width: 30px;
+        height: 30px;
+        background-size: 15px;
+    }
+
+    .logo {
+        width: 28px;
+        height: 28px;
+        left: 10px;
+        font-size: 0.7rem;
+    }
+
+    nav {
+        gap: 0.3rem;
+    }
+
+    .category-button {
+        padding: 6px 10px;
+        font-size: 10px;
+        border-radius: 25px;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+        margin-left: 1rem;
+        line-height: 1.2;
+    }
+
+    .Car {
+        max-height: 40vh;
+    }
+
+    .Car img {
+        max-width: 100%;
+    }
+
+    .section-nav {
+        gap: 0.3rem;
+        padding-bottom: 15px;
+    }
+
+    .section-nav h3 {
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+
+    .nav-arrow {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+        background-size: 15px;
+    }
+
+    .image-nav-button {
+        width: 65px;
+        height: 38px;
+        font-size: 0.9rem;
+    }
+
+    .image-nav-button .hover-image {
+        top: -50px;
+        width: 45px;
+        height: 40px;
+    }
+
+    .carousel-navigation {
+        width: 100%;
+        gap: 2px;
+        padding: 3px;
+    }
+
+    .right-config-panel {
+        width: 100%;
+        /* height: 45%; */
+        height: 39%;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-header button {
+        padding: 5px 8px;
+        font-size: 0.6rem;
+    }
+
+    .option-item {
+        padding: 10px;
+    }
+
+    .option-item img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .option-name {
+        font-size: 0.8rem;
+    }
+
+    .color-swatch {
+        width: 24px;
+        height: 24px;
+    }
+
+    .custom-color-picker {
+        gap: 5px;
+    }
+
+    .custom-color-picker label {
+        font-size: 0.65rem;
+    }
+}
+
+
+/* ///////////////////////////////////////////////////////////////////////////// */
+
+
+/* ✅ Small Mobile Devices (iPhone SE, old Androids, 320px–375px) */
+@media (max-width: 375px) {
+    header {
+        padding: 8px;
+        gap: 0.3rem;
+    }
+
+    .back-button {
+        width: 28px;
+        height: 28px;
+        background-size: 14px;
+    }
+
+    .logo {
+        width: 25px;
+        height: 25px;
+        font-size: 0.65rem;
+        left: 8px;
+    }
+
+    .category-button {
+        padding: 5px 8px;
+        font-size: 9px;
+    }
+
+    h1 {
+        font-size: 1.1rem;
+        margin-left: 0.8rem;
+    }
+
+    .Car {
+        max-height: 38vh;
+    }
+
+    .nav-arrow {
+        width: 28px;
+        height: 28px;
+        background-size: 14px;
+    }
+
+    .image-nav-button {
+        width: 60px;
+        height: 35px;
+        font-size: 0.8rem;
+    }
+
+    .option-item img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .option-name {
+        font-size: 0.75rem;
+    }
+
+    .color-swatch {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+/* ///////////////////////////////////////// */
+.config-dropdown-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.config-dropdown-content.open {
+    max-height: 500px; /* Adjust based on content size */
+    opacity: 1;
+}
+
+.config-dropdown-header {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.config-dropdown.active .config-dropdown-header {
+    background-color: transparent; /* Ensure header has no background */
+}
+
+.config-dropdown.active {
+    background-color: #007bff; /* Default fallback color */
+    transition: background-color 0.3s ease;
+}
+
+.config-dropdown.active .config-dropdown-header span {
+    color: #ffffff; /* White text for span in active state */
+}
+
+.config-dropdown-header img {
+    transition: transform 0.3s ease;
+}
+
+.config-dropdown-header.open img {
+    transform: rotate(180deg); /* Rotate arrow when open */
+}
+
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <div class="logo">ES</div>
+        <nav>
+            <button class="category-button" id="interior-button">
+                <img src="./Images/steering-wheel.png" alt="icon" />
+                INTERIOR
+            </button>
+            <button class="category-button" id="exterior-button">
+                <img src="./Images/body-repair.png">
+                EXTERIOR
+            </button>
+        </nav>
+    </header>
+    <iframe src="https://playcanv.as/e/p/jYUnWc3U/" frameborder="0" id="app"></iframe>
+    <main>
+        <div style="display: flex; align-items: center; gap: -1rem; width: 100%; justify-content: flex-start;">
+            <button class="back-button" onclick="goBack()"></button>
+            <h1 id="model-title">Jetour</h1>
+        </div>
+        <div class="Car" style="display: none;">
+            <img src="./Images/car-model.png" alt="Car Model" id="car-image" class="car-image" />
+        </div>
+        <div class="section-nav">
+            <span id="model-heading">
+                <h3>Model</h3>
+            </span>
+            <div class="carousel-wrapper">
+                <div class="carousel-container">
+                    <div class="carousel-navigation">
+                        <button class="nav-arrow" id="prev-step"></button>
+                        <div class="image-navigation" id="image-navigation">
+                            <button class="image-nav-button active" data-index="0">
+                                1
+                                <img src="./Images/Jetour.png" alt="Car 1" class="hover-image">
+                            </button>
+                            <button class="image-nav-button next-preview" data-index="1">
+                                2
+                                <img src="./Images/RangeRover.png" alt="Car 2" class="hover-image">
+                            </button>
+                            <button class="image-nav-button far-preview" data-index="2">
+                                3
+                                <img src="./Images/Toyota Land Cruiser.png" alt="Car 3" class="hover-image">
+                            </button>
+                            <button class="image-nav-button far-preview" data-index="3">
+                                4
+                                <img src="./Images/Nissan Patrol.jpeg" alt="Car 4" class="hover-image">
+                            </button>
+                        </div>
+                        <button class="nav-arrow" id="next-step"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="right-config-panel" id="right-config-panel">
+        <div class="panel-header" id="panel-header">
+            <button data-category="exterior" data-dropdown-id="exterior-plastic">
+                <img src="./Images/plastic.png" style="width: 20px; height: 20px;">
+            </button>
+            <button data-category="exterior" data-dropdown-id="exterior-left">
+                <img src="./Images/car_left.png" style="width: 20px; height: 20px;">
+            </button>
+            <button data-category="exterior" data-dropdown-id="exterior-right">
+                <img src="./Images/car_right.png" style="width: 20px; height: 20px;">
+            </button>
+            <button data-category="exterior" data-dropdown-id="exterior-grills">
+                <img src="./Images/grill.png" style="width: 20px; height: 20px;">
+            </button>
+            <button data-category="exterior" data-dropdown-id="exterior-paints">
+                <img src="./Images/car-paintingn.png" style="width: 20px; height: 20px;">
+            </button>
+            <button data-category="interior" data-dropdown-id="interior-seats">
+                <img src="./Images/seats.png" style="width: 20px; height: 20px;">
+            </button>
+            <button data-category="interior" data-dropdown-id="interior-plastic">
+                <img src="./Images/plastic.png" style="width: 20px; height: 20px;">
+            </button>
+        </div>
+        <div class="panel-content" id="panel-content">
+            <!-- Exterior Plastic -->
+            <div class="main-dropdown-container" data-dropdown-id="exterior-plastic" data-category="exterior" style="display: none;">
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Front Bumper Trim">
+                        <span>FRONT BUMPER TRIM</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Front Bumper Trim">
+                        <div class="option-item" data-option-id="plastic_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #000000" title="Gloss Black" id="sport-grille-gloss-black" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #333333" title="Matte Black" id="sport-grille-matte-black" data-color="#333333"></div>
+                                <div class="color-swatch" style="background-color: #AAAAAA" title="Chrome" id="sport-grille-chrome" data-color="#AAAAAA"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-gloss-black" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-gloss-black">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Exterior Left -->
+            <div class="main-dropdown-container" data-dropdown-id="exterior-left" data-category="exterior" style="display: none;">
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="left1">
+                        <span>LEFT1</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-left1">
+                        <div class="option-item" data-option-id="wheels_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #C0C0C0" title="Silver" id="alloy-wheels-left-silver" data-color="#C0C0C0"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black" id="alloy-wheels-left-black" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #FFD700" title="Gold" id="alloy-wheels-left-gold" data-color="#FFD700"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-silver" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-silver">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="left2">
+                        <span>LEFT2</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-left2">
+                        <div class="option-item" data-option-id="roof_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #000000" title="Black" id="roof-rack-left-black" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #CCCCCC" title="Silver" id="roof-rack-left-silver" data-color="#CCCCCC"></div>
+                                <div class="color-swatch" style="background-color: #8B4513" title="Brown" id="roof-rack-left-brown" data-color="#8B4513"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-black" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-black">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="left3">
+                        <span>LEFT3</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-left3">
+                        <div class="option-item" data-option-id="side_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #333333" title="Graphite" id="side-steps-left-graphite" data-color="#333333"></div>
+                                <div class="color-swatch" style="background-color: #DDDDDD" title="Brushed Steel" id="side-steps-left-brushed-steel" data-color="#DDDDDD"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Matte Black" id="side-steps-left-matte-black" data-color="#000000"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-graphite" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-graphite">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="left4">
+                        <span>LEFT4</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-left4">
+                        <div class="option-item" data-option-id="protection_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #333333" title="Steel Grey" id="bull-bar-left-steel-grey" data-color="#333333"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black" id="bull-bar-left-black" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #DDDDDD" title="Chrome" id="bull-bar-left-chrome" data-color="#DDDDDD"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-steel-grey" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-steel-grey">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="left5">
+                        <span>LEFT5</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-left5">
+                        <div class="option-item" data-option-id="utility_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #FF0000" title="Red" id="tow-hook-left-red" data-color="#FF0000"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black" id="tow-hook-left-black" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #FFFF00" title="Yellow" id="tow-hook-left-yellow" data-color="#FFFF00"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-red" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-red">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Exterior Right -->
+            <div class="main-dropdown-container" data-dropdown-id="exterior-right" data-category="exterior" style="display: none;">
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Rear Ladder">
+                        <span>REAR LADDER</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Rear Ladder">
+                        <div class="option-item" data-option-id="right_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #C0C0C0" title="Silver" id="alloy-wheels-right-silver" data-color="#C0C0C0"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black" id="alloy-wheels-right-black" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #FFD700" title="Gold" id="alloy-wheels-right-gold" data-color="#FFD700"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-silver" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-silver">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Roof Access Ladder">
+                        <span>ROOF ACCESS LADDER</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Roof Access Ladder">
+                        <div class="option-item" data-option-id="right_2">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #000000" title="Black" id="roof-rack-right-black" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #CCCCCC" title="Silver" id="roof-rack-right-silver" data-color="#CCCCCC"></div>
+                                <div class="color-swatch" style="background-color: #8B4513" title="Brown" id="roof-rack-right-brown" data-color="#8B4513"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-black" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-black">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Side-Mounted Ladder">
+                        <span>SIDE-MOUNTED LADDER</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Side-Mounted Ladder">
+                        <div class="option-item" data-option-id="right_3">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #333333" title="Graphite" id="side-steps-right-graphite" data-color="#333333"></div>
+                                <div class="color-swatch" style="background-color: #DDDDDD" title="Brushed Steel" id="side-steps-right-brushed-steel" data-color="#DDDDDD"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Matte Black" id="side-steps-right-matte-black" data-color="#000000"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-graphite" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-graphite">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Foldable Ladder">
+                        <span>FOLDABLE LADDER</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Foldable Ladder">
+                        <div class="option-item" data-option-id="right_4">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #333333" title="Steel Grey" id="bull-bar-right-steel-grey" data-color="#333333"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black" id="bull-bar-right-black" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #DDDDDD" title="Chrome" id="bull-bar-right-chrome" data-color="#DDDDDD"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-steel-grey" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-steel-grey">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Off-Road Utility Ladder">
+                        <span>OFF-ROAD UTILITY LADDER</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Off-Road Utility Ladder">
+                        <div class="option-item" data-option-id="right_5">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #FF0000" title="Red" id="tow-hook-right-red" data-color="#FF0000"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black" id="tow-hook-right-black" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #FFFF00" title="Yellow" id="tow-hook-right-yellow" data-color="#FFFF00"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-red" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-red">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Exterior Grills -->
+            <div class="main-dropdown-container" data-dropdown-id="exterior-grills" data-category="exterior" style="display: none;">
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Main Front Grille">
+                        <span>MAIN FRONT GRILLE</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Main Front Grille">
+                        <div class="option-item" data-option-id="grills_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #C0C0C0" title="Silver" id="activateClosedBox" data-color="#C0C0C0"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black" id="activateGrilledBox" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #FFD700" title="Gold" id="flipLadder" data-color="#FFD700"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-silver" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-silver">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Lower Bumper Grille">
+                        <span>LOWER BUMPER GRILLE</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Lower Bumper Grille">
+                        <div class="option-item" data-option-id="grills_2">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #000000" title="Black" id="roof-rack-grills-black" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #CCCCCC" title="Silver" id="roof-rack-grills-silver" data-color="#CCCCCC"></div>
+                                <div class="color-swatch" style="background-color: #8B4513" title="Brown" id="roof-rack-grills-brown" data-color="#8B4513"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-black" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-black">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Fog Light Grilles">
+                        <span>FOG LIGHT GRILLES</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Fog Light Grilles">
+                        <div class="option-item" data-option-id="grills_3">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #333333" title="Graphite" id="side-steps-grills-graphite" data-color="#333333"></div>
+                                <div class="color-swatch" style="background-color: #DDDDDD" title="Brushed Steel" id="side-steps-grills-brushed-steel" data-color="#DDDDDD"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Matte Black" id="side-steps-grills-matte-black" data-color="#000000"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-graphite" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-graphite">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Hood Vent Grille">
+                        <span>HOOD VENT GRILLE</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Hood Vent Grille">
+                        <div class="option-item" data-option-id="grills_4">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #333333" title="Steel Grey" id="bull-bar-grills-steel-grey" data-color="#333333"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black" id="bull-bar-grills-black" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #DDDDDD" title="Chrome" id="bull-bar-grills-chrome" data-color="#DDDDDD"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-steel-grey" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-steel-grey">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Side Fender Grilles">
+                        <span>SIDE FENDER GRILLES</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Side Fender Grilles">
+                        <div class="option-item" data-option-id="grills_5">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #FF0000" title="Red" id="tow-hook-grills-red" data-color="#FF0000"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black" id="tow-hook-grills-black" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #FFFF00" title="Yellow" id="tow-hook-grills-yellow" data-color="#FFFF00"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-red" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-red">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Exterior Paints -->
+            <div class="main-dropdown-container" data-dropdown-id="exterior-paints" data-category="exterior" style="display: none;">
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Body Paint">
+                        <span>BODY PAINT</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Body Paint">
+                        <div class="option-item" data-option-id="bodyColor">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #C0C0C0" title="Silver" id="SilverColor" data-color="#C0C0C0"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black" id="BlackColor" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #FFD700" title="Gold" id="GoldColor" data-color="#FFD700"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-silver" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-silver">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Interior Seats -->
+            <div class="main-dropdown-container" data-dropdown-id="interior-seats" data-category="interior" style="display: none;">
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Front Leather Seats">
+                        <span>FRONT LEATHER SEATS</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Front Leather Seats">
+                        <div class="option-item" data-option-id="seat1_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #2F2F2F" title="Carbon Black" id="front-leather-seats-carbon-black" data-color="#2F2F2F"></div>
+                                <div class="color-swatch" style="background-color: #8B0000" title="Deep Red" id="front-leather-seats-deep-red" data-color="#8B0000"></div>
+                                <div class="color-swatch" style="background-color: #F5F5F5" title="Cream White" id="front-leather-seats-cream-white" data-color="#F5F5F5"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-front-leather-seats" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-front-leather-seats">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Rear Leather Seats">
+                        <span>REAR LEATHER SEATS</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Rear Leather Seats">
+                        <div class="option-item" data-option-id="seat2_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #2F2F2F" title="Carbon Black" id="rear-leather-seats-carbon-black" data-color="#2F2F2F"></div>
+                                <div class="color-swatch" style="background-color: #8B0000" title="Deep Red" id="rear-leather-seats-deep-red" data-color="#8B0000"></div>
+                                <div class="color-swatch" style="background-color: #F5F5F5" title="Cream White" id="rear-leather-seats-cream-white" data-color="#F5F5F5"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-rear-leather-seats" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-rear-leather-seats">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Seat Belts">
+                        <span>SEAT BELTS</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Seat Belts">
+                        <div class="option-item" data-option-id="seat3_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #2F2F2F" title="Carbon Black" id="seat-belts-carbon-black" data-color="#2F2F2F"></div>
+                                <div class="color-swatch" style="background-color: #8B0000" title="Deep Red" id="seat-belts-deep-red" data-color="#8B0000"></div>
+                                <div class="color-swatch" style="background-color: #F5F5F5" title="Cream White" id="seat-belts-cream-white" data-color="#F5F5F5"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-seat-belts" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-seat-belts">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Headrests">
+                        <span>HEADRESTS</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Headrests">
+                        <div class="option-item" data-option-id="seat4_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #2F2F2F" title="Carbon Black" id="headrests-carbon-black" data-color="#2F2F2F"></div>
+                                <div class="color-swatch" style="background-color: #8B0000" title="Deep Red" id="headrests-deep-red" data-color="#8B0000"></div>
+                                <div class="color-swatch" style="background-color: #F5F5F5" title="Cream White" id="headrests-cream-white" data-color="#F5F5F5"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-headrests" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-headrests">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Armrests">
+                        <span>ARMRESTS</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Armrests">
+                        <div class="option-item" data-option-id="seat5_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #2F2F2F" title="Carbon Black" id="armrests-carbon-black" data-color="#2F2F2F"></div>
+                                <div class="color-swatch" style="background-color: #8B0000" title="Deep Red" id="armrests-deep-red" data-color="#8B0000"></div>
+                                <div class="color-swatch" style="background-color: #F5F5F5" title="Cream White" id="armrests-cream-white" data-color="#F5F5F5"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-armrests" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-armrests">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Interior Plastic -->
+            <div class="main-dropdown-container" data-dropdown-id="interior-plastic" data-category="interior" style="display: none;">
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Dash Trim">
+                        <span>DASH TRIM</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Dash Trim">
+                        <div class="option-item" data-option-id="plastic1_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #333333" title="Matte Black" id="dash-trim-matte-black" data-color="#333333"></div>
+                                <div class="color-swatch" style="background-color: #666666" title="Dark Grey" id="dash-trim-dark-grey" data-color="#666666"></div>
+                                <div class="color-swatch" style="background-color: #999999" title="Light Grey" id="dash-trim-light-grey" data-color="#999999"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-dash-trim" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-dash-trim">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Door Panels">
+                        <span>DOOR PANELS</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Door Panels">
+                        <div class="option-item" data-option-id="plastic2_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #1C2526" title="Gloss Black" id="door-panels-gloss-black" data-color="#1C2526"></div>
+                                <div class="color-swatch" style="background-color: #4682B4" title="Metallic Blue" id="door-panels-metallic-blue" data-color="#4682B4"></div>
+                                <div class="color-swatch" style="background-color: #2F4F4F" title="Dark Slate" id="door-panels-dark-slate" data-color="#2F4F4F"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-door-panels" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-door-panels">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Center Console">
+                        <span>CENTER CONSOLE</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Center Console">
+                        <div class="option-item" data-option-id="plastic3_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #1C2526" title="Gloss Black" id="center-console-gloss-black" data-color="#1C2526"></div>
+                                <div class="color-swatch" style="background-color: #4682B4" title="Metallic Blue" id="center-console-metallic-blue" data-color="#4682B4"></div>
+                                <div class="color-swatch" style="background-color: #2F4F4F" title="Dark Slate" id="center-console-dark-slate" data-color="#2F4F4F"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-center-console" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-center-console">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Steering Wheel">
+                        <span>STEERING WHEEL</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Steering Wheel">
+                        <div class="option-item" data-option-id="plastic4_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #1C2526" title="Gloss Black" id="steering-wheel-gloss-black" data-color="#1C2526"></div>
+                                <div class="color-swatch" style="background-color: #4682B4" title="Metallic Blue" id="steering-wheel-metallic-blue" data-color="#4682B4"></div>
+                                <div class="color-swatch" style="background-color: #2F4F4F" title="Dark Slate" id="steering-wheel-dark-slate" data-color="#2F4F4F"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-steering-wheel" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-steering-wheel">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Gear Shifter">
+                        <span>GEAR SHIFTER</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Gear Shifter">
+                        <div class="option-item" data-option-id="plastic5_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #1C2526" title="Gloss Black" id="gear-shifter-gloss-black" data-color="#1C2526"></div>
+                                <div class="color-swatch" style="background-color: #4682B4" title="Metallic Blue" id="gear-shifter-metallic-blue" data-color="#4682B4"></div>
+                                <div class="color-swatch" style="background-color: #2F4F4F" title="Dark Slate" id="gear-shifter-dark-slate" data-color="#2F4F4F"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-gear-shifter" class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-gear-shifter">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        
+var app;
+
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("ready!");
+    app = document.getElementById("app");
+
+    // Initialize CarConfigurator
+    class CarConfigurator {
+        constructor() {
+            this.currentStep = 0;
+            this.totalSteps = 4;
+            this.autoPlayInterval = null;
+            this.autoPlayDelay = 4000;
+            this.isAutoPlaying = false;
+            this.currentMainCategory = "";
+            this.activeDropdown = null;
+            this.imageNavButtons = document.querySelectorAll(".image-nav-button");
+            this.prevArrow = document.getElementById("prev-step");
+            this.nextArrow = document.getElementById("next-step");
+            this.modelTitle = document.getElementById("model-title");
+            this.carouselWrapper = document.querySelector(".carousel-wrapper");
+            this.modelHeading = document.getElementById("model-heading");
+            this.carImage = document.getElementById("car-image");
+            this.rightConfigPanel = document.getElementById("right-config-panel");
+            this.panelHeader = document.getElementById("panel-header");
+            this.panelContent = document.getElementById("panel-content");
+            this.interiorButton = document.getElementById("interior-button");
+            this.exteriorButton = document.getElementById("exterior-button");
+            this.iframe = document.getElementById("app");
+            this.modelTitles = ["Jetour", "Range Rover Defender", "Toyota Land Cruiser", "Nissan Patrol"];
+            this.modelImages = [
+                "./Images/car-model.png",
+                "./Images/car-model.png",
+                "./Images/car-model.png",
+                "./Images/car-model.png"
+            ];
+            this.init();
+        }
+        init() {
+            this.bindEvents();
+            this.bindPanelEvents();
+            this.exteriorButton.classList.remove("active");
+            this.interiorButton.classList.remove("active");
+            this.hideConfigPanel();
+            this.carouselWrapper.classList.remove("show");
+        }
+        bindEvents() {
+            this.imageNavButtons.forEach((btn, index) => {
+                btn.addEventListener("click", () => {
+                    this.goToStep(index);
+                });
+            });
+            this.prevArrow.addEventListener("click", () => this.goToPrevious());
+            this.nextArrow.addEventListener("click", () => this.goToNext());
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "ArrowLeft") this.goToPrevious();
+                else if (e.key === "ArrowRight") this.goToNext();
+            });
+            const carouselContainer = document.querySelector(".carousel-container");
+            if (carouselContainer) {
+                carouselContainer.addEventListener("mouseenter", () => {
+                    if (this.isAutoPlaying) this.pauseAutoPlay();
+                });
+                carouselContainer.addEventListener("mouseleave", () => { });
+            }
+            this.modelHeading.addEventListener("click", () => {
+                this.carouselWrapper.classList.toggle("show");
+                this.updateDisplay();
+                if (this.carouselWrapper.classList.contains("show")) {
+                    this.startAutoPlay();
+                    this.hideConfigPanel();
+                    document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+                } else {
+                    this.pauseAutoPlay();
+                    if (this.currentMainCategory) {
+                        this.updateCategoryDisplay(this.currentMainCategory);
+                    }
+                }
+            });
+            this.exteriorButton.addEventListener("click", () => this.updateCategoryDisplay("exterior"));
+            this.interiorButton.addEventListener("click", () => this.updateCategoryDisplay("interior"));
+        }
+        bindPanelEvents() {
+            // Bind toggle for banner buttons
+            this.panelHeader.querySelectorAll('button').forEach(button => {
+                button.addEventListener("click", () => {
+                    this.togglePanelDropdown(button.dataset.dropdownId);
+                });
+            });
+
+            // Bind toggle for config dropdown headers
+            document.querySelectorAll('.config-dropdown-header').forEach(header => {
+                header.addEventListener("click", () => {
+                    this.toggleDropdown(header.dataset.dropdownId);
+                });
+            });
+
+            // Bind select for option items
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.addEventListener("click", (e) => {
+                    if (!e.target.closest('.color-swatch') && !e.target.closest('.custom-color-picker')) {
+                        this.selectConfigOption(item, item.closest('.config-dropdown').querySelector('.config-dropdown-header').dataset.dropdownId, item.dataset.optionId);
+                    }
+                });
+            });
+
+            // Bind color swatches
+            document.querySelectorAll('.color-swatch:not(.custom-color-indicator)').forEach(swatch => {
+                swatch.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    const item = e.target.closest('.option-item');
+                    const swatchId = e.target.id;
+                    const color = e.target.dataset.color;
+                    console.log(`Selected swatch: ${swatchId}`);
+                    item.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+                    e.target.classList.add('selected');
+                    this.iframe.contentWindow.postMessage(swatchId, 'https://playcanv.as');
+                    // Update container background color when swatch is selected
+                    const container = item.closest('.config-dropdown');
+                    if (container.querySelector('.config-dropdown-header').classList.contains('active')) {
+                        container.style.backgroundColor = color;
+                    }
+                });
+            });
+
+            // Bind custom color apply buttons
+            document.querySelectorAll('.custom-color-apply-btn').forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    const item = e.target.closest('.option-item');
+                    const customInput = item.querySelector('.custom-color-input');
+                    const customColor = customInput.value;
+                    console.log(`Applied custom color: ${customColor}`);
+                    item.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+                    let customIndicator = item.querySelector('.custom-color-indicator');
+                    if (!customIndicator) {
+                        customIndicator = document.createElement('div');
+                        customIndicator.className = 'color-swatch custom-color-indicator';
+                        customIndicator.title = 'Custom Color';
+                        const swatches = item.querySelector('.color-swatches');
+                        swatches.insertBefore(customIndicator, item.querySelector('.custom-color-picker'));
+                    }
+                    customIndicator.style.backgroundColor = customColor;
+                    customIndicator.classList.add('selected');
+                    customIndicator.dataset.color = customColor;
+                    this.iframe.contentWindow.postMessage(customColor, 'https://playcanv.as');
+                    // Update container background color when custom color is applied
+                    const container = item.closest('.config-dropdown');
+                    if (container.querySelector('.config-dropdown-header').classList.contains('active')) {
+                        container.style.backgroundColor = customColor;
+                    }
+                });
+            });
+        }
+        goToStep(step) {
+            if (step < 0) step = this.totalSteps - 1;
+            else if (step >= this.totalSteps) step = 0;
+            this.currentStep = step;
+            this.updateDisplay();
+            this.startAutoPlay();
+        }
+        goToNext() {
+            this.goToStep(this.currentStep + 1);
+        }
+        goToPrevious() {
+            this.goToStep(this.currentStep - 1);
+        }
+        updateDisplay() {
+            this.modelTitle.textContent = this.modelTitles[this.currentStep];
+            this.carImage.src = this.modelImages[this.currentStep];
+            this.imageNavButtons.forEach((btn, index) => {
+                btn.classList.remove("active", "prev-preview", "next-preview", "far-preview");
+                if (index === this.currentStep) {
+                    btn.classList.add("active");
+                } else if (index === (this.currentStep - 1 + this.totalSteps) % this.totalSteps) {
+                    btn.classList.add("prev-preview");
+                } else if (index === (this.currentStep + 1) % this.totalSteps) {
+                    btn.classList.add("next-preview");
+                } else {
+                    btn.classList.add("far-preview");
+                }
+            });
+        }
+        startAutoPlay() {
+            this.pauseAutoPlay();
+            this.isAutoPlaying = true;
+            this.autoPlayInterval = setInterval(() => {
+                this.goToNext();
+            }, this.autoPlayDelay);
+        }
+        pauseAutoPlay() {
+            if (this.autoPlayInterval) {
+                clearInterval(this.autoPlayInterval);
+                this.autoPlayInterval = null;
+                this.isAutoPlaying = false;
+            }
+        }
+        hideConfigPanel() {
+            this.rightConfigPanel.classList.remove("show");
+        }
+        showConfigPanel() {
+            this.rightConfigPanel.classList.add("show");
+        }
+        updateCategoryDisplay(category) {
+            if (this.currentMainCategory === category && this.rightConfigPanel.classList.contains("show")) {
+                this.hideConfigPanel();
+                document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+                this.currentMainCategory = "";
+                return;
+            }
+            this.currentMainCategory = category;
+            document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+            if (category === "interior") {
+                this.interiorButton.classList.add("active");
+            } else if (category === "exterior") {
+                this.exteriorButton.classList.add("active");
+            }
+            if (this.carouselWrapper.classList.contains("show")) {
+                this.carouselWrapper.classList.remove("show");
+                this.pauseAutoPlay();
+            }
+            this.hideConfigPanel();
+            setTimeout(() => {
+                this.renderPanelContent(category);
+                this.showConfigPanel();
+            }, 150);
+        }
+        renderPanelContent(category) {
+            this.panelHeader.querySelectorAll('button').forEach(btn => {
+                btn.style.display = (btn.dataset.category === category) ? 'flex' : 'none';
+                btn.classList.remove('active');
+            });
+            this.panelContent.querySelectorAll('.main-dropdown-container').forEach(cont => {
+                cont.style.display = (cont.dataset.category === category) ? 'none' : 'none';
+            });
+            this.activeDropdown = null;
+        }
+        togglePanelDropdown(dropdownId) {
+            this.panelContent.querySelectorAll('.main-dropdown-container').forEach(container => {
+                container.style.display = 'none';
+            });
+            this.panelHeader.querySelectorAll('button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const targetContainer = this.panelContent.querySelector(`[data-dropdown-id="${dropdownId}"]`);
+            const targetButton = this.panelHeader.querySelector(`[data-dropdown-id="${dropdownId}"]`);
+            if (this.activeDropdown === dropdownId) {
+                this.activeDropdown = null;
+            } else {
+                if (targetContainer) {
+                    targetContainer.style.display = 'block';
+                }
+                if (targetButton) {
+                    targetButton.classList.add('active');
+                }
+                this.activeDropdown = dropdownId;
+            }
+        }
+        toggleDropdown(dropdownId) {
+            const header = document.querySelector(`.config-dropdown-header[data-dropdown-id="${dropdownId}"]`);
+            const content = document.getElementById(`dropdown-content-${dropdownId}`);
+            if (header && content) {
+                const isOpen = content.classList.contains("open");
+                // Remove active and open classes from all dropdowns
+                document.querySelectorAll('.config-dropdown').forEach(c => {
+                    c.classList.remove("active");
+                    c.style.backgroundColor = ''; // Reset background color
+                });
+                document.querySelectorAll('.config-dropdown-header').forEach(h => {
+                    h.classList.remove("active", "open");
+                });
+                document.querySelectorAll('.config-dropdown-content').forEach(c => {
+                    c.classList.remove("open");
+                });
+                if (!isOpen) {
+                    // Open the clicked dropdown and mark it active
+                    content.classList.add("open");
+                    header.classList.add("active", "open");
+                    const container = header.closest('.config-dropdown');
+                    container.classList.add("active");
+                    // Set container background color based on selected swatch or custom color
+                    const selectedSwatch = content.querySelector('.color-swatch.selected');
+                    const customIndicator = content.querySelector('.custom-color-indicator.selected');
+                    const customInput = content.querySelector('.custom-color-input');
+                    let containerColor = '#007bff'; // Default fallback
+                    if (customIndicator && customIndicator.dataset.color) {
+                        containerColor = customIndicator.dataset.color;
+                    } else if (selectedSwatch && selectedSwatch.dataset.color) {
+                        containerColor = selectedSwatch.dataset.color;
+                    } else if (customInput) {
+                        containerColor = customInput.value; // Fallback to input value if no swatch selected
+                    }
+                    container.style.backgroundColor = containerColor;
+                    console.log(`Active dropdown: ${dropdownId} with container color ${containerColor}`);
+                    this.iframe.contentWindow.postMessage(dropdownId, 'https://playcanv.as');
+                }
+            }
+        }
+        selectConfigOption(clickedItem, dropdownKey, optionId) {
+            clickedItem.closest('.config-dropdown-content').querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            clickedItem.classList.add('selected');
+            console.log(`Selected ${dropdownKey} option: ${optionId}`);
+        }
+    }
+
+    // Instantiate CarConfigurator
+    new CarConfigurator();
+
+    function goBack() {
+        window.history.back();
+    }
+});
+    </script>
+
+    
+</body>
+
+</html>

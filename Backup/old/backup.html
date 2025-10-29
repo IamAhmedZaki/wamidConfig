@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Configurator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+@font-face {
+    font-family: 'Ulm Grotesk';
+    src: url('./Font/FontsFreeNetUlmGrotesk.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    background: #e5e5e5;
+    font-family: 'Ulm Grotesk', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    font-weight: bolder;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 35px;
+}
+
+.back-button {
+    border: none;
+    font-size: 1.2rem;
+    color: #161616;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('./Images/left-arrow.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 60%;
+}
+
+.back-button:hover {
+    background-color: #ccc;
+}
+
+.logo {
+    background: black;
+    color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    position: absolute;
+    left: 31px;
+}
+
+nav {
+    display: flex;
+    gap: 1rem;
+    height: 50px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown button {
+    border: none;
+    border-radius: 50px;
+    padding: 1.1rem 2.2rem;
+    background: #ddd;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    color: #161616;
+}
+
+.dropdown button img {
+    filter: none;
+    transition: filter 0.3s;
+}
+
+.dropdown button.active {
+    background: black;
+    color: white;
+}
+
+.dropdown button.active img {
+    filter: brightness(0) invert(1);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: linear-gradient(135deg, #ffffff 0%, #f1f1f1 100%);
+    min-width: 200px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    z-index: 10;
+    border-radius: 12px;
+    top: 110%;
+    left: -15%;
+    padding: 10px 10px;
+    border: 1px solid #e0e0e0;
+}
+
+.dropdown-content .dropdown-sub-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dropdown-content button {
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #161616;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.dropdown-content button:hover {
+    background-color: #e0e0e0;
+    transition: all .3s ease-in-out;
+}
+
+.dropdown-content button.active {
+    background: black;
+    color: white;
+}
+
+.dropdown-content button.active img {
+    filter: brightness(0) invert(1);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+main {
+    position: relative;
+    text-align: center;
+    padding: 2rem;
+    height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.arrow {
+    border: none;
+    background: #e0e0e0;
+    font-size: 1.2rem;
+    color: #333;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.arrow:hover {
+    background: #ccc;
+}
+
+h1 {
+    text-align: left;
+    font-size: 2rem;
+    margin-left: 3rem;
+}
+
+.plane {
+    position: relative;
+    display: inline-block;
+}
+
+.plane img {
+    max-width: 100%;
+}
+
+.right-side-icons,
+.left-side-icons {
+    position: absolute;
+    top: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: opacity 0.3s;
+}
+
+.right-side-icons {
+    left: 2rem;
+}
+
+.left-side-icons {
+    right: 2rem;
+}
+
+.right-side-icons button,
+.left-side-icons button {
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.right-side-icons button:hover,
+.left-side-icons button:hover {
+    transform: scale(1.1);
+   
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.section-nav {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    margin-top: auto;
+    padding-bottom: 75px;
+    width: 100%;
+}
+
+.section-nav h3 {
+    cursor: pointer;
+    margin-left: 3rem;
+    margin-bottom: 55px;
+}
+
+.carousel-wrapper {
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.8s ease-out, opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(-100%) scale(0.95);
+    position: relative;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.carousel-wrapper.show {
+    max-height: 83px;
+    opacity: 1;
+    transform: translateX(0) scale(1);
+}
+
+.nav-arrow {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.nav-arrow:hover {
+    background: #eee;
+}
+
+#prev-step {
+    background-image: url('./Images/left.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#next-step {
+    background-image: url('./Images/right-arrow.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.carousel-container {
+    max-width: 1200px;
+    width: 100%;
+    border-radius: 20px;
+    position: relative;
+    padding: 10px;
+}
+
+.carousel-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding: 15px;
+    background: transparent;
+    gap: 15px;
+}
+
+.image-navigation {
+    display: flex;
+    align-items: center;
+    perspective: 1000px;
+}
+
+.image-nav-button {
+    width: 120px;
+    height: 60px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transform-style: preserve-3d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    background: #fff;
+    color: #333;
+    overflow: visible;
+}
+
+.image-nav-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.image-nav-button.active {
+    box-shadow: 0 12px 30px rgba(185, 185, 185, 0.4);
+    border: 2px solid #252525;
+}
+
+.image-nav-button.prev-preview {
+    transform: rotateY(15deg) scale(0.85);
+    opacity: 0.7;
+    z-index: 1;
+}
+
+.image-nav-button.next-preview {
+    transform: rotateY(-15deg) scale(0.85);
+    opacity: 0.7;
+    z-index: 1;
+}
+
+.image-nav-button.far-preview {
+    transform: scale(0.7);
+    opacity: 0.5;
+    z-index: 0;
+}
+
+.image-nav-button .hover-image {
+    position: absolute;
+    top: -90px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-15px);
+    width: 80px;
+    height: 80px;
+    opacity: 0;
+    transition: all 0.4s ease-out;
+    pointer-events: none;
+    z-index: 10;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+}
+
+.image-nav-button:hover .hover-image {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.Car {
+    overflow: hidden;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Car img {
+    max-width: 90%;
+    max-height: 80vh;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 0;
+        margin: 0;
+        background-color: #e5e5e5;
+        overflow-x: hidden;
+        height: 100vh;
+    }
+
+    header {
+        flex-direction: row;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    nav {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .dropdown-content {
+        width: 90%;
+        left: 5%;
+    }
+
+    h1 {
+        margin: 1rem 1.5rem 0;
+        font-size: 1.5rem;
+        text-align: left;
+        line-height: 1.3;
+    }
+
+
+    .Car img {
+        width: 100%;
+        max-width: 90%;
+        height: auto;
+        display: block;
+    }
+
+    .right-side-icons,
+    .left-side-icons {
+        top: 30%;
+    }
+
+    .right-side-icons button,
+    .left-side-icons button {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .section-nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .nav-arrow {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+    }
+
+    .image-nav-button .hover-image {
+        top: -70px;
+        width: 60px;
+        height: 60px;
+    }
+
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 85%;
+        background: white;
+        padding: 1rem 2rem;
+        border-top-left-radius: 1.5rem;
+        border-top-right-radius: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer button {
+        background: none;
+        border: none;
+        font-size: 1.4rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+        color: #000;
+    }
+
+    .footer .label {
+        font-size: 0.5rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    header {
+        flex-direction: row;
+        gap: 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+        margin-left: 2rem;
+    }
+
+    .right-side-icons,
+    .left-side-icons {
+        top: 35%;
+    }
+
+    .right-side-icons button,
+    .left-side-icons button {
+        width: 2.2rem;
+        height: 2.2rem;
+    }
+
+    .section-nav {
+        flex-direction: row;
+        justify-content: center;
+        gap: 0.75rem;
+    }
+
+    .nav-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+    }
+
+    .image-nav-button .hover-image {
+        top: -80px;
+        width: 70px;
+        height: 70px;
+    }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">ES</div>
+        <nav>
+            <div class="dropdown">
+                <button id="interior-button">
+                    <img src="./Images/steering-wheel.png" alt="icon" style="width: 20px; height: 20px;" />
+                    INTERIOR
+                </button>
+                <div class="dropdown-content" id="interior-dropdown">
+                    <div class="dropdown-sub-content">
+                        <button id="seats-button">
+                            <img src="./Images/seats.png" style="width: 20px; height: 20px;">
+                            SEATS
+                        </button>
+                        <button id="plastic-button">
+                            <img src="./Images/plastic.png" style="width: 20px; height: 20px;">
+                            PLASTIC
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="active" id="exterior-button">
+                    <img src="./Images/body-repair.png" style="width: 20px; height: 20px;">
+                    EXTERIOR
+                </button>
+                <div class="dropdown-content" id="exterior-dropdown">
+                    <div class="dropdown-sub-content">
+                        <button id="grill-button">
+                            <img src="./Images/grill.png" style="width: 20px; height: 20px;">
+                            GRILL
+                        </button>
+                        <button id="accessories-button">
+                            <img src="./Images/accessories.png" style="width: 20px; height: 20px;">
+                            ACCESSORIES
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="right-side-icons" id="right-side-icons" style="display:none;">
+            <button><img width="25" height="25" src="./Images/movieb.png" alt="camcorder-pro"></button>
+            <button><img width="25" height="25" src="./Images/360b.png" alt="portraits"></button>
+        </div>
+        <div class="left-side-icons" id="left-side-icons" style="display:none;">
+            <button><img width="25" height="25" src="./Images/movieb.png" alt="camcorder-pro"></button>
+            <button><img width="25" height="25" src="./Images/360b.png" alt="portraits"></button>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <button class="back-button" onclick="goBack()"></button>
+            <h1 id="model-title" style="margin: 0;">Jetour</h1>
+        </div>
+
+        <div class="Car">
+            <img src="./Images/car-model.png" alt="Car Model" id="car-image" class="car-image" />
+        </div>
+
+        <div class="section-nav">
+            <span id="model-heading">
+                <h3>Model</h3>
+            </span>
+            <div class="carousel-wrapper">
+                <div class="carousel-container">
+                    <div class="carousel-navigation">
+                        <button class="nav-arrow" id="prev-step"></button>
+                        <div class="image-navigation" id="image-navigation">
+                            <button class="image-nav-button active" data-index="0">
+                                <img src="./Images/Jetour.png" alt="Car 1" class="hover-image" >
+                            </button>
+                            <button class="image-nav-button next-preview" data-index="1">
+                                <img src="./Images/RangeRover.png" alt="Car 2" class="hover-image">
+                            </button>
+                            <button class="image-nav-button far-preview" data-index="2">
+                                <img src="./Images/Toyota Land Cruiser.png" alt="Car 3" class="hover-image">
+                            </button>
+                            <button class="image-nav-button far-preview" data-index="3">
+                                <img src="./Images/Nissan Patrol.jpeg" alt="Car 4" class="hover-image">
+                            </button>
+                        </div>
+                        <button class="nav-arrow" id="next-step"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        function goBack() {
+    window.history.back();
+}
+
+class CarCarousel {
+    constructor() {
+        this.currentStep = 0;
+        this.totalSteps = 4;
+        this.autoPlayInterval = null;
+        this.autoPlayDelay = 4000;
+        this.isAutoPlaying = false;
+        this.currentTab = "exterior"; // default
+
+        // DOM elements
+        this.imageNavButtons = document.querySelectorAll(".image-nav-button");
+        this.prevArrow = document.getElementById("prev-step");
+        this.nextArrow = document.getElementById("next-step");
+        this.modelTitle = document.getElementById("model-title");
+        this.carouselWrapper = document.querySelector(".carousel-wrapper");
+        this.modelHeading = document.getElementById("model-heading");
+        this.carImage = document.getElementById("car-image");
+        this.grillButton = document.getElementById("grill-button");
+        this.accessoriesButton = document.getElementById("accessories-button");
+        this.seatsButton = document.getElementById("seats-button");
+        this.plasticButton = document.getElementById("plastic-button");
+        this.rightSideIcons = document.getElementById("right-side-icons");
+        this.leftSideIcons = document.getElementById("left-side-icons");
+        this.interiorButton = document.getElementById("interior-button");
+        this.exteriorButton = document.getElementById("exterior-button");
+
+        // Model data
+        this.modelTitles = ["Jetour", "Range Rover Defender", "Toyota Land Cruiser", "Nissan Patrol"];
+        this.modelImages = [
+            ".Images/car-model.png",
+            ".Images/car-model.png",
+            ".Images/car-model.png",
+            ".Images/car-model.png"
+        ];
+        this.singleCarImage = "./Images/car-model.png"; // Always show this image
+
+        // Exterior options
+        this.grillOptions = [
+            { id: "grill1", image: "./Images/placeholder.png", alt: "Grill 1" },
+            { id: "grill2", image: "./Images/placeholder.png", alt: "Grill 2" },
+            { id: "grill3", image: "./Images/placeholder.png", alt: "Grill 3" },
+            { id: "grill4", image: "./Images/placeholder.png", alt: "Grill 4" }
+        ];
+
+        this.grillStyles = {
+            grill1: [
+                { id: "grill1-style1", style: { backgroundColor: "#000000" }, alt: "" },
+                { id: "grill1-style2", style: { backgroundColor: "#000000" }, alt: "" },
+                { id: "grill1-style3", style: { backgroundColor: "#4a4a4a" }, alt: "" }
+            ],
+            grill2: [
+                { id: "grill2-style1", style: { backgroundColor: "#c0c0c0" }, alt: "" },
+                { id: "grill2-style2", style: { backgroundColor: "#ffd700" }, alt: "" },
+                { id: "grill2-style3", style: { backgroundColor: "#333333" }, alt: "" }
+            ],
+            grill3: [
+                { id: "grill3-style1", style: { backgroundColor: "#ffffff" }, alt: "" },
+                { id: "grill3-style2", style: { backgroundColor: "#1c2526" }, alt: "" },
+                { id: "grill3-style3", style: { backgroundColor: "#cd7f32" }, alt: "" }
+            ],
+            grill4: [
+                { id: "grill4-style1", style: { backgroundColor: "#e5e4e2" }, alt: "" },
+                { id: "grill4-style2", style: { backgroundColor: "#d3d3d3" }, alt: "" },
+                { id: "grill4-style3", style: { backgroundColor: "#a9a9a9" }, alt: "" }
+            ]
+        };
+
+        this.accessoriesOptions = [
+            { id: "acc1", image: "./Images/placeholder.png", alt: "Roof Rack" },
+            { id: "acc2", image: "./Images/placeholder.png", alt: "Side Steps" },
+            { id: "acc3", image: "./Images/placeholder.png", alt: "Spoiler" },
+            { id: "acc4", image: "./Images/placeholder.png", alt: "Lights" }
+        ];
+
+        this.accessoriesSettings = {
+            acc1: [
+                { id: "acc1-set1", style: { backgroundColor: "#d3d3d3" }, alt: "" },
+                { id: "acc1-set2", style: { backgroundColor: "#a9a9a9" }, alt: "" },
+                { id: "acc1-set3", style: { backgroundColor: "#c0c0c0" }, alt: "" }
+            ],
+            acc2: [
+                { id: "acc2-set1", style: { backgroundColor: "#dcdcdc" }, alt: "" },
+                { id: "acc2-set2", style: { backgroundColor: "#b0b0b0" }, alt: "" },
+                { id: "acc2-set3", style: { backgroundColor: "#a9a9a9" }, alt: "" }
+            ],
+            acc3: [
+                { id: "acc3-set1", style: { backgroundColor: "#e0e0e0" }, alt: "" },
+                { id: "acc3-set2", style: { backgroundColor: "#c0c0c0" }, alt: "" },
+                { id: "acc3-set3", style: { backgroundColor: "#d3d3d3" }, alt: "" }
+            ],
+            acc4: [
+                { id: "acc4-set1", style: { backgroundColor: "#b0e0e6" }, alt: "" },
+                { id: "acc4-set2", style: { backgroundColor: "#f0e68c" }, alt: "" },
+                { id: "acc4-set3", style: { backgroundColor: "#98fb98" }, alt: "" }
+            ]
+        };
+
+        // Interior options
+        this.seatsOptions = [
+            { id: "seat1", image: "./Images/placeholder.png", alt: "Leather Seat" },
+            { id: "seat2", image: "./Images/placeholder.png", alt: "Fabric Seat" },
+            { id: "seat3", image: "./Images/placeholder.png", alt: "Sport Seat" },
+            { id: "seat4", image: "./Images/placeholder.png", alt: "Luxury Seat" }
+        ];
+
+        this.seatsStyles = {
+            seat1: [
+                { id: "seat1-style1", style: { backgroundColor: "#2f2f2f" }, alt: "" },
+                { id: "seat1-style2", style: { backgroundColor: "#8b0000" }, alt: "" },
+                { id: "seat1-style3", style: { backgroundColor: "#f5f5f5" }, alt: "" }
+            ],
+            seat2: [
+                { id: "seat2-style1", style: { backgroundColor: "#696969" }, alt: "" },
+                { id: "seat2-style2", style: { backgroundColor: "#4682b4" }, alt: "" },
+                { id: "seat2-style3", style: { backgroundColor: "#228b22" }, alt: "" }
+            ],
+            seat3: [
+                { id: "seat3-style1", style: { backgroundColor: "#000000" }, alt: "" },
+                { id: "seat3-style2", style: { backgroundColor: "#ff4500" }, alt: "" },
+                { id: "seat3-style3", style: { backgroundColor: "#ffffff" }, alt: "" }
+            ],
+            seat4: [
+                { id: "seat4-style1", style: { backgroundColor: "#deb887" }, alt: "" },
+                { id: "seat4-style2", style: { backgroundColor: "#8b4513" }, alt: "" },
+                { id: "seat4-style3", style: { backgroundColor: "#f0e68c" }, alt: "" }
+            ]
+        };
+
+        this.plasticOptions = [
+            { id: "plastic1", image: "./Images/placeholder.png", alt: "Matte Plastic" },
+            { id: "plastic2", image: "./Images/placeholder.png", alt: "Glossy Plastic" },
+            { id: "plastic3", image: "./Images/placeholder.png", alt: "Carbon Fiber" },
+            { id: "plastic4", image: "./Images/placeholder.png", alt: "Wood Grain" }
+        ];
+
+        this.plasticStyles = {
+            plastic1: [
+                { id: "plastic1-style1", style: { backgroundColor: "#333333" }, alt: "" },
+                { id: "plastic1-style2", style: { backgroundColor: "#666666" }, alt: "" },
+                { id: "plastic1-style3", style: { backgroundColor: "#999999" }, alt: "" }
+            ],
+            plastic2: [
+                { id: "plastic2-style1", style: { backgroundColor: "#1c2526" }, alt: "" },
+                { id: "plastic2-style2", style: { backgroundColor: "#4682b4" }, alt: "" },
+                { id: "plastic2-style3", style: { backgroundColor: "#2f4f4f" }, alt: "" }
+            ],
+            plastic3: [
+                { id: "plastic3-style1", style: { backgroundColor: "#000000" }, alt: "" },
+                { id: "plastic3-style2", style: { backgroundColor: "#333333" }, alt: "" },
+                { id: "plastic3-style3", style: { backgroundColor: "#4a4a4a" }, alt: "" }
+            ],
+            plastic4: [
+                { id: "plastic4-style1", style: { backgroundColor: "#8b4513" }, alt: "" },
+                { id: "plastic4-style2", style: { backgroundColor: "#deb887" }, alt: "" },
+                { id: "plastic4-style3", style: { backgroundColor: "#a0522d" }, alt: "" }
+            ]
+        };
+
+        this.init();
+    }
+
+    init() {
+        this.bindEvents();
+        this.updateTabDisplay("exterior"); // default
+        this.carouselWrapper.classList.remove("show");
+        this.resetSideIcons();
+    }
+
+    bindEvents() {
+        this.imageNavButtons.forEach((btn, index) => {
+            btn.addEventListener("click", () => {
+                this.goToStep(index);
+            });
+        });
+
+        this.prevArrow.addEventListener("click", () => this.goToPrevious());
+        this.nextArrow.addEventListener("click", () => this.goToNext());
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowLeft") this.goToPrevious();
+            else if (e.key === "ArrowRight") this.goToNext();
+        });
+
+        const container = document.querySelector(".carousel-container");
+        if (container) {
+            container.addEventListener("mouseenter", () => {
+                if (this.isAutoPlaying) this.pauseAutoPlay();
+            });
+            container.addEventListener("mouseleave", () => { });
+        }
+
+        this.modelHeading.addEventListener("click", () => {
+            this.carouselWrapper.classList.toggle("show");
+            this.updateDisplay();
+            if (this.carouselWrapper.classList.contains("show")) {
+                this.startAutoPlay();
+                if (this.currentTab === "interior" || this.currentTab === "exterior") {
+                    this.rightSideIcons.style.display = "none";
+                    this.leftSideIcons.style.display = "none";
+                }
+            } else {
+                this.pauseAutoPlay();
+            }
+        });
+
+        this.exteriorButton.addEventListener("click", () => {
+            this.updateTabDisplay("exterior");
+        });
+
+        this.interiorButton.addEventListener("click", () => {
+            this.updateTabDisplay("interior");
+        });
+
+        this.grillButton.addEventListener("click", () => {
+            this.updateTabDisplay("grill");
+        });
+
+        this.accessoriesButton.addEventListener("click", () => {
+            this.updateTabDisplay("accessories");
+        });
+
+        this.seatsButton.addEventListener("click", () => {
+            this.updateTabDisplay("seats");
+        });
+
+        this.plasticButton.addEventListener("click", () => {
+            this.updateTabDisplay("plastic");
+        });
+    }
+
+    updateTabDisplay(tab) {
+        this.currentTab = tab;
+        // Remove active from all
+        this.interiorButton.classList.remove("active");
+        this.exteriorButton.classList.remove("active");
+        this.grillButton.classList.remove("active");
+        this.accessoriesButton.classList.remove("active");
+        this.seatsButton.classList.remove("active");
+        this.plasticButton.classList.remove("active");
+
+        // Add active to current tab and its parent
+        if (tab === "interior") {
+            this.interiorButton.classList.add("active");
+        } else if (tab === "exterior") {
+            this.exteriorButton.classList.add("active");
+        } else if (tab === "grill") {
+            this.exteriorButton.classList.add("active");
+            this.grillButton.classList.add("active");
+        } else if (tab === "accessories") {
+            this.exteriorButton.classList.add("active");
+            this.accessoriesButton.classList.add("active");
+        } else if (tab === "seats") {
+            this.interiorButton.classList.add("active");
+            this.seatsButton.classList.add("active");
+        } else if (tab === "plastic") {
+            this.interiorButton.classList.add("active");
+            this.plasticButton.classList.add("active");
+        }
+
+        // Remove forced show, let model-heading click control it
+        this.rightSideIcons.style.display = "none";
+        this.leftSideIcons.style.display = "none";
+        if (tab === "grill") {
+            this.renderGrillOptions();
+            this.rightSideIcons.style.display = "flex";
+            this.leftSideIcons.style.display = "flex";
+        } else if (tab === "accessories") {
+            this.renderAccessoriesOptions();
+            this.rightSideIcons.style.display = "flex";
+            this.leftSideIcons.style.display = "flex";
+        } else if (tab === "seats") {
+            this.renderSeatsOptions();
+            this.rightSideIcons.style.display = "flex";
+            this.leftSideIcons.style.display = "flex";
+        } else if (tab === "plastic") {
+            this.renderPlasticOptions();
+            this.rightSideIcons.style.display = "flex";
+            this.leftSideIcons.style.display = "flex";
+        }
+        this.updateDisplay();
+    }
+
+    renderGrillOptions() {
+        this.rightSideIcons.innerHTML = '';
+        this.leftSideIcons.innerHTML = '';
+        this.grillOptions.forEach(option => {
+            const button = document.createElement("button");
+            button.innerHTML = `<img width="25" height="25" src="${option.image}" alt="${option.alt}">`;
+            button.addEventListener("click", () => this.renderGrillStyles(option.id));
+            this.rightSideIcons.appendChild(button);
+        });
+    }
+
+    renderGrillStyles(grillId) {
+        this.leftSideIcons.innerHTML = '';
+        this.grillStyles[grillId].forEach(style => {
+            const button = document.createElement("button");
+            if (style.style) {
+                button.style.backgroundColor = style.style.backgroundColor;
+                button.innerHTML = `<span style="color: #fff; font-size: 0.8rem;">${style.alt}</span>`;
+            } else {
+                button.innerHTML = `<img width="25" height="25" src="${style.image}" alt="${style.alt}">`;
+            }
+            button.addEventListener("click", () => console.log(`Selected grill style: ${style.id}`));
+            this.leftSideIcons.appendChild(button);
+        });
+    }
+
+    renderAccessoriesOptions() {
+        this.rightSideIcons.innerHTML = '';
+        this.leftSideIcons.innerHTML = '';
+        this.accessoriesOptions.forEach(option => {
+            const button = document.createElement("button");
+            button.innerHTML = `<img width="25" height="25" src="${option.image}" alt="${option.alt}">`;
+            button.addEventListener("click", () => this.renderAccessoriesSettings(option.id));
+            this.rightSideIcons.appendChild(button);
+        });
+    }
+
+    renderAccessoriesSettings(accId) {
+        this.leftSideIcons.innerHTML = '';
+        this.accessoriesSettings[accId].forEach(setting => {
+            const button = document.createElement("button");
+            if (setting.style) {
+                button.style.backgroundColor = setting.style.backgroundColor;
+                button.innerHTML = `<span style="color: #fff; font-size: 0.8rem;">${setting.alt}</span>`;
+            } else {
+                button.innerHTML = `<img width="25" height="25" src="${setting.image}" alt="${setting.alt}">`;
+            }
+            button.addEventListener("click", () => console.log(`Selected accessory setting: ${setting.id}`));
+            this.leftSideIcons.appendChild(button);
+        });
+    }
+
+    renderSeatsOptions() {
+        this.rightSideIcons.innerHTML = '';
+        this.leftSideIcons.innerHTML = '';
+        this.seatsOptions.forEach(option => {
+            const button = document.createElement("button");
+            button.innerHTML = `<img width="25" height="25" src="${option.image}" alt="${option.alt}">`;
+            button.addEventListener("click", () => this.renderSeatsStyles(option.id));
+            this.rightSideIcons.appendChild(button);
+        });
+    }
+
+    renderSeatsStyles(seatId) {
+        this.leftSideIcons.innerHTML = '';
+        this.seatsStyles[seatId].forEach(style => {
+            const button = document.createElement("button");
+            if (style.style) {
+                button.style.backgroundColor = style.style.backgroundColor;
+                button.innerHTML = `<span style="color: #fff; font-size: 0.8rem;">${style.alt}</span>`;
+            } else {
+                button.innerHTML = `<img width="25" height="25" src="${style.image}" alt="${style.alt}">`;
+            }
+            button.addEventListener("click", () => console.log(`Selected seat style: ${style.id}`));
+            this.leftSideIcons.appendChild(button);
+        });
+    }
+
+    renderPlasticOptions() {
+        this.rightSideIcons.innerHTML = '';
+        this.leftSideIcons.innerHTML = '';
+        this.plasticOptions.forEach(option => {
+            const button = document.createElement("button");
+            button.innerHTML = `<img width="25" height="25" src="${option.image}" alt="${option.alt}">`;
+            button.addEventListener("click", () => this.renderPlasticStyles(option.id));
+            this.rightSideIcons.appendChild(button);
+        });
+    }
+
+    renderPlasticStyles(plasticId) {
+        this.leftSideIcons.innerHTML = '';
+        this.plasticStyles[plasticId].forEach(style => {
+            const button = document.createElement("button");
+            if (style.style) {
+                button.style.backgroundColor = style.style.backgroundColor;
+                button.innerHTML = `<span style="color: #fff; font-size: 0.8rem;">${style.alt}</span>`;
+            } else {
+                button.innerHTML = `<img width="25" height="25" src="${style.image}" alt="${style.alt}">`;
+            }
+            button.addEventListener("click", () => console.log(`Selected plastic style: ${style.id}`));
+            this.leftSideIcons.appendChild(button);
+        });
+    }
+
+    resetSideIcons() {
+        this.rightSideIcons.innerHTML = `
+            <button><img width="25" height="25" src="./Images/movieb.png" alt="camcorder-pro"></button>
+            <button><img width="25" height="25" src="./Images/360b.png" alt="portraits"></button>
+        `;
+        this.leftSideIcons.innerHTML = `
+            <button><img width="25" height="25" src="./Images/movieb.png" alt="camcorder-pro"></button>
+            <button><img width="25" height="25" src="./Images/360b.png" alt="portraits"></button>
+        `;
+        // Hide by default for INTERIOR/EXTERIOR
+        this.rightSideIcons.style.display = "none";
+        this.leftSideIcons.style.display = "none";
+    }
+
+    goToStep(step) {
+        this.currentStep = step;
+        this.updateDisplay();
+    }
+
+    goToNext() {
+        this.currentStep = (this.currentStep + 1) % this.totalSteps;
+        this.updateDisplay();
+    }
+
+    goToPrevious() {
+        this.currentStep = (this.currentStep - 1 + this.totalSteps) % this.totalSteps;
+        this.updateDisplay();
+    }
+
+    updateDisplay() {
+        if (this.carImage) {
+            this.carImage.src = this.singleCarImage; // Always show the same image
+        }
+        this.imageNavButtons.forEach((btn, index) => {
+            const numberSpan = btn.querySelector('.number') || document.createElement('span');
+            numberSpan.className = 'number';
+            numberSpan.textContent = index + 1; // Show numbers
+            if (!btn.querySelector('.number')) btn.insertBefore(numberSpan, btn.firstChild);
+            btn.classList.remove("active", "prev-preview", "next-preview", "far-preview");
+            if (index === this.currentStep) {
+                btn.classList.add("active");
+            } else if (index === (this.currentStep - 1 + this.totalSteps) % this.totalSteps) {
+                btn.classList.add("prev-preview");
+            } else if (index === (this.currentStep + 1) % this.totalSteps) {
+                btn.classList.add("next-preview");
+            } else {
+                btn.classList.add("far-preview");
+            }
+        });
+        this.modelTitle.style.opacity = "0";
+        setTimeout(() => {
+            this.modelTitle.textContent = this.modelTitles[this.currentStep];
+            this.modelTitle.style.opacity = "1";
+        }, 250);
+    }
+
+    startAutoPlay() {
+        this.isAutoPlaying = true;
+        if (this.autoPlayInterval) clearInterval(this.autoPlayInterval);
+        this.autoPlayInterval = setInterval(() => this.goToNext(), this.autoPlayDelay);
+    }
+
+    pauseAutoPlay() {
+        this.isAutoPlaying = false;
+        if (this.autoPlayInterval) {
+            clearInterval(this.autoPlayInterval);
+            this.autoPlayInterval = null;
+        }
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    new CarCarousel();
+});
+    </script>
+</body>
+</html>

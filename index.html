@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Configurator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css" />
+
+</head>
+
+<body>
+    <header id="header">
+        <div class="logo">ES</div>
+        <nav>
+            <button class="category-button" id="interior-button">
+                <img src="./Images/steering-wheel.png" alt="icon" />
+                INTERIOR
+            </button>
+            <button class="category-button" id="exterior-button">
+                <img src="./Images/body-repair.png">
+                EXTERIOR
+            </button>
+        </nav>
+    </header>
+    <!-- <iframe src="https://playcanv.as/e/p/jYUnWc3U/" frameborder="0" id="app"></iframe> -->
+    <iframe src="https://playcanv.as/e/p/77f02e22/" frameborder="0" id="app"></iframe>
+    <main id="main">
+        <div style="display: flex; align-items: center; gap: 1rem; width: 100%; justify-content: flex-start;">
+            <button class="back-button" onclick="goBack()" fdprocessedid="jjpoh"></button>
+            <h1 id="model-title">Jetour</h1>
+        </div>
+        <div class="custom-buttons">
+            <!-- <button class="custom-button" onclick="customAction1()" fdprocessedid="inwwor" style="background-image: url('../Images/icon1.png'); background-repeat: no-repeat; background-position: center; background-size: 20px;"></button> -->
+            <button class="custom-button" onclick="customAction2()" fdprocessedid="Day"
+                style="background-image: url('./Images/sunny-day.png'); background-repeat: no-repeat; background-position: center; background-size: 20px;"></button>
+            <button class="custom-button" onclick="customAction3()" fdprocessedid="Night"
+                style="background-image: url('./Images/night-mode.png'); background-repeat: no-repeat; background-position: center; background-size: 20px;"></button>
+            <button class="custom-button" onclick="customAction4()" fdprocessedid="Studio"
+                style="background-image: url('./Images/umbrella-stand.png'); background-repeat: no-repeat; background-position: center; background-size: 20px;"></button>
+        </div>
+        <div class="Car" style="display: none;">
+            <img src="./Images/car-model.png" alt="Car Model" id="car-image" class="car-image" />
+        </div>
+        <div class="section-nav">
+            <span id="model-heading">
+                <h3>Model</h3>
+            </span>
+            <div class="carousel-wrapper">
+                <div class="carousel-container">
+                    <div class="carousel-navigation">
+                        <button class="nav-arrow" id="prev-step"></button>
+                        <div class="image-navigation" id="image-navigation">
+                            <button class="image-nav-button active" data-index="0">
+                                1
+                                <img src="./Images/download.jpeg" alt="Car 1" class="hover-image">
+                            </button>
+                            <button class="image-nav-button next-preview" data-index="1">
+                                2
+                                <img src="./Images/download.jpeg" alt="Car 2" class="hover-image">
+                            </button>
+                            <button class="image-nav-button far-preview" data-index="2">
+                                3
+                                <img src="./Images/download.jpeg" alt="Car 3" class="hover-image">
+                            </button>
+                            <button class="image-nav-button far-preview" data-index="3">
+                                4
+                                <img src="./Images/download.jpeg" alt="Car 4" class="hover-image">
+                            </button>
+                        </div>
+                        <button class="nav-arrow" id="next-step"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="right-config-panel" id="right-config-panel">
+        <div class="panel-header" id="panel-header">
+            <button data-category="exterior" data-dropdown-id="exterior-paints">
+                <!-- <img src="./Images/car-paintingn.png" style="width: 20px; height: 20px;"> -->
+                <img src="./Images/paint.png" style="width: 20px; height: 20px;">
+            </button>
+            <button data-category="exterior" data-dropdown-id="exterior-grills">
+                <img src="./Images/grill.png" style="width: 20px; height: 20px;">
+            </button>
+            <button data-category="exterior" data-dropdown-id="exterior-plastic">
+                <img src="./Images/plastic.png" style="width: 20px; height: 20px;">
+            </button>
+            <!-- <button data-category="exterior" data-dropdown-id="exterior-left">
+                <img src="./Images/car_left.png" style="width: 20px; height: 20px;">
+            </button>
+            <button data-category="exterior" data-dropdown-id="exterior-right">
+                <img src="./Images/car_right.png" style="width: 20px; height: 20px;">
+            </button> -->
+            <button data-category="interior" data-dropdown-id="interior-seats">
+                <img src="./Images/seats.png" style="width: 20px; height: 20px;">
+            </button>
+            <button data-category="interior" data-dropdown-id="interior-plastic">
+                <img src="./Images/plastic.png" style="width: 20px; height: 20px;">
+            </button>
+        </div>
+        <div class="panel-content" id="panel-content">
+            <div class="main-dropdown-container" data-dropdown-id="exterior-plastic" data-category="exterior"
+                style="display: none;">
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="BackLightCover">
+                        <span>BACK LIGHT COVER</span> <img src="./Images/down-arrow.png"
+                            style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-BackLightCover">
+                        <div class="option-item" data-option-id="plastic_1">
+                            <div class="color-swatches">
+                                <!-- <div class="color-swatch" style="background-color: #000000" title="Gloss Black"
+                                    id="BLCSilverGrill" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #333333" title="Matte Black"
+                                    id="BLCBlackGrill" data-color="#333333"></div>
+                                <div class="color-swatch" style="background-color: #AAAAAA" title="Chrome"
+                                    id="BLCGoldGrill" data-color="#AAAAAA"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-gloss-black"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-gloss-black">Apply</button>
+                                </div> -->
+                                <!-- <div class="color-swatch"
+                                    style="background-image: url('./Images/Material1.jpg'); background-size: cover; background-position: center;"
+                                    title="Material 1" onclick="matext1()"></div>
+                                <div class="color-swatch"
+                                    style="background-image: url('./Images/Material2.jpg'); background-size: cover; background-position: center;"
+                                    title="Material 2" onclick="matext2()"></div> -->
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="main-dropdown-container" data-dropdown-id="exterior-left" data-category="exterior"
+                style="display: none;">
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="ClosedBox">
+                        <span>CLOSED BOX</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-ClosedBox">
+                        <div class="option-item" data-option-id="wheels_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #C0C0C0" title="Silver"
+                                    id="CBSilverGrill" data-color="#C0C0C0"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black"
+                                    id="CBBlackGrill" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #FFD700" title="Gold"
+                                    id="CBGoldGrill" data-color="#FFD700"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-silver"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-silver">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="GrilledBox">
+                        <span>GRILLED BOX</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-GrilledBox">
+                        <div class="option-item" data-option-id="roof_1">
+                            <div class="color-swatches"> -->
+            <!-- <div class="color-swatch" style="background-color: #000000" title="Black"
+                                    id="GBSilverGrill" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #CCCCCC" title="Silver"
+                                    id="GBBlackGrill" data-color="#CCCCCC"></div>
+                                <div class="color-swatch" style="background-color: #8B4513" title="Brown"
+                                    id="GBGoldGrill" data-color="#8B4513"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-black"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-black">Apply</button>
+                                </div> -->
+            <!-- <div class="color-swatch" style="background-image: url('./Images/Material1.jpg'); background-size: cover; background-position: center;" title="Material 1" onclick="matext1()"></div>
+                                <div class="color-swatch" style="background-image: url('./Images/Material2.jpg'); background-size: cover; background-position: center;" title="Material 2" onclick="matext2()"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-dropdown-container" data-dropdown-id="exterior-right" data-category="exterior"
+                style="display: none;">
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Ladder">
+                        <span>LADDER</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Ladder">
+                        <div class="option-item" data-option-id="right_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #C0C0C0" title="Silver"
+                                    id="LSilverGrill" data-color="#C0C0C0"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black"
+                                    id="LBlackGrill" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #FFD700" title="Gold" id="LGoldGrill"
+                                    data-color="#FFD700"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-silver"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-silver">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="main-dropdown-container" data-dropdown-id="exterior-grills" data-category="exterior"
+                style="display: none;">
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Default Grill">
+                        <span>DEFAULT GRILL</span> <img src="./Images/down-arrow.png"
+                            style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Default Grill">
+                        <div class="option-item" data-option-id="grills_1">
+                            <div class="color-swatches">
+                                <!-- <div class="color-swatch" style="background-color: #C0C0C0" title="Silver"
+                                    id="DSilverGrill" data-color="#C0C0C0"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black"
+                                    id="DBlackGrill" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #FFD700" title="Gold" id="DGoldGrill"
+                                    data-color="#FFD700"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-silver"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-silver">Apply</button>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Stargazer Grill">
+                        <span>STARGAZER GRILL</span> <img src="./Images/down-arrow.png"
+                            style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Stargazer Grill">
+                        <div class="option-item" data-option-id="grills_2">
+                            <div class="color-swatches">
+                                <!-- <div class="color-swatch" style="background-color: #000000" title="Black"
+                                    id="SBlackGrill" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #CCCCCC" title="Silver"
+                                    id="SSilverGrill" data-color="#CCCCCC"></div>
+                                <div class="color-swatch" style="background-color: #8B4513" title="Brown"
+                                    id="SGoldGrill" data-color="#8B4513"></div> -->
+
+
+                                <!-- <div class="color-swatch"
+                                    style="background-image: url('./Images/Material1.jpg'); background-size: cover; background-position: center;"
+                                    title="Material 1" onclick="matext1()"></div>
+                                <div class="color-swatch"
+                                    style="background-image: url('./Images/Material2.jpg'); background-size: cover; background-position: center;"
+                                    title="Material 2" onclick="matext2()"></div> -->
+
+
+                                <!-- <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-black"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-black">Apply</button>
+                                </div> -->
+                                <!-- <button class="custom-button" onclick="matext1()">Material 1</button>
+                                <button class="custom-button" onclick="matext2()">Material 2</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="BlackWarrior Grill">
+                        <span>BLACK WARRIOR GRILL</span> <img src="./Images/down-arrow.png"
+                            style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-BlackWarrior Grill">
+                        <div class="option-item" data-option-id="grills_3">
+                            <div class="color-swatches">
+                                <!-- <div class="color-swatch" style="background-color: #333333" title="Graphite"
+                                    id="BWSilverGrill" data-color="#333333"></div>
+                                <div class="color-swatch" style="background-color: #DDDDDD" title="Brushed Steel"
+                                    id="BWBlackGrill" data-color="#DDDDDD"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Matte Black"
+                                    id="BWGoldGrill" data-color="#000000"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-graphite"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-graphite">Apply</button>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Defender Grill">
+                        <span>DEFENDER GRILL</span> <img src="./Images/down-arrow.png"
+                            style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Defender Grill">
+                        <div class="option-item" data-option-id="grills_4">
+                            <div class="color-swatches">
+                                <!-- <div class="color-swatch" style="background-color: #333333" title="Steel Grey"
+                                    id="DDSilverGrill" data-color="#333333"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black"
+                                    id="DDBlackGrill" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #DDDDDD" title="Chrome"
+                                    id="DDGoldGrill" data-color="#DDDDDD"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-steel-grey"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-steel-grey">Apply</button>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-dropdown-container" data-dropdown-id="exterior-paints" data-category="exterior"
+                style="display: none;">
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Body Paint">
+                        <span>BODY PAINT</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Body Paint">
+                        <div class="option-item" data-option-id="bodyColor">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #C0C0C0" title="Silver"
+                                    id="SilverColor" data-color="#C0C0C0"></div>
+                                <div class="color-swatch" style="background-color: #000000" title="Black"
+                                    id="BlackColor" data-color="#000000"></div>
+                                <div class="color-swatch" style="background-color: #FFD700" title="Gold" id="GoldColor"
+                                    data-color="#FFD700"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-input"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-color-body-btn">Apply</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- /////////////////////// -->
+
+
+                <!-- //////////////////////// -->
+
+
+                <!-- <button onclick="matext1()">
+                   
+                    material1
+                </button>
+                <button onclick="matext2()">
+                   
+                    material2
+
+                </button> -->
+
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Material">
+                        <span>MATERIALS</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Material">
+                        <div class="option-item" data-option-id="bodyColor">
+                            <div class="color-swatches">
+                                <div class="color-swatch"
+                                    style="background-image: url('./Images/Material1.jpg'); background-size: cover; background-position: center;"
+                                    title="Material 1" onclick="matext1()"></div>
+                                <div class="color-swatch"
+                                    style="background-image: url('./Images/Material2.jpg'); background-size: cover; background-position: center;"
+                                    title="Material 2" onclick="matext2()"></div>
+                                <div class="color-swatch"
+                                    style="background-image: url('./Images/Material3.png'); background-size: cover; background-position: center;"
+                                    title="Material 3" onclick="matext3()"></div>
+                                <div class="color-swatch"
+                                    style="background-image: url('./Images/Material4.png'); background-size: cover; background-position: center;"
+                                    title="Material 4" onclick="matext4()"></div>
+                                <!-- <div class="color-swatch" style="background-color: #C0C0C0" title="Silver"
+                            id="SilverColor" data-color="#C0C0C0"></div>
+                            <div class="color-swatch" style="background-color: #000000" title="Black"
+                            id="BlackColor" data-color="#000000"></div>
+                            <div class="color-swatch" style="background-color: #FFD700" title="Gold" id="GoldColor"
+                            data-color="#FFD700"></div>
+                            <div class="custom-color-picker">
+                                <label>Custom:</label>
+                                <input type="color" value="#000000" id="custom-color-input"
+                                class="custom-color-input">
+                                <button class="custom-color-apply-btn" id="custom-color-body-btn">Apply</button>
+
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <button onclick="matext1()">
+                   
+                    material1
+                </button>
+                <button onclick="matext2()">
+                   
+                    material2
+
+                </button> -->
+
+
+            <div class="main-dropdown-container" data-dropdown-id="interior-seats" data-category="interior"
+                style="display: none;">
+                <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Front Leather Seats">
+                        <span>LEATHER SEATS</span> <img src="./Images/down-arrow.png"
+                            style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Front Leather Seats">
+                        <div class="option-item" data-option-id="seat1_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #2F2F2F" title="Carbon Black"
+                                    id="FSBlackColor" data-color="#2F2F2F"></div>
+                                <div class="color-swatch" style="background-color: #FFD700" title="Deep Red"
+                                    id="FSGoldColor" data-color="#8B0000"></div>
+                                <div class="color-swatch" style="background-color: #F5F5F5" title="Cream White"
+                                    id="FSSilverColor" data-color="#F5F5F5"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-front-leather-seats"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn"
+                                        id="custom-apply-front-leather-seats">Apply</button>
+                                </div>
+                                <!-- <div class="color-swatch"
+                                    style="background-image: url('./Images/Material1.jpg'); background-size: cover; background-position: center;"
+                                    title="Material 1" onclick="matint1()"></div>
+                                <div class="color-swatch"
+                                    style="background-image: url('./Images/Material2.jpg'); background-size: cover; background-position: center;"
+                                    title="Material 2" onclick="matint2()"></div> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Rear Leather Seats">
+                        <span>REAR LEATHER SEATS</span> <img src="./Images/down-arrow.png"
+                            style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Rear Leather Seats">
+            
+                        <div class="option-item" data-option-id="seat2_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #2F2F2F" title="Carbon Black"
+                                    id="RSSilverColor" data-color="#2F2F2F"></div>
+                                <div class="color-swatch" style="background-color: #8B0000" title="Deep Red"
+                                    id="RSBlackColor" data-color="#8B0000"></div>
+                                <div class="color-swatch" style="background-color: #F5F5F5" title="Cream White"
+                                    id="RSGoldColor" data-color="#F5F5F5"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-rear-leather-seats"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn"
+                                        id="custom-apply-rear-leather-seats">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Seat Belts">
+                        <span>SEAT BELTS</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Seat Belts">
+                        <div class="option-item" data-option-id="seat3_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #2F2F2F" title="Carbon Black"
+                                    id="SBSilverColor" data-color="#2F2F2F"></div>
+                                <div class="color-swatch" style="background-color: #8B0000" title="Deep Red"
+                                    id="SBBlackColor" data-color="#8B0000"></div>
+                                <div class="color-swatch" style="background-color: #F5F5F5" title="Cream White"
+                                    id="SBGoldColor" data-color="#F5F5F5"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-seat-belts"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-seat-belts">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Headrests">
+                        <span>HEADRESTS</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Headrests">
+                        <div class="option-item" data-option-id="seat4_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #2F2F2F" title="Carbon Black"
+                                    id="HRSilverColor" data-color="#2F2F2F"></div>
+                                <div class="color-swatch" style="background-color: #8B0000" title="Deep Red"
+                                    id="HRBlackColor" data-color="#8B0000"></div>
+                                <div class="color-swatch" style="background-color: #F5F5F5" title="Cream White"
+                                    id="HRGoldColor" data-color="#F5F5F5"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-headrests"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-headrests">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Armrests">
+                        <span>ARMRESTS</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Armrests">
+                        <div class="option-item" data-option-id="seat5_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #2F2F2F" title="Carbon Black"
+                                    id="ARSilverColor" data-color="#2F2F2F"></div>
+                                <div class="color-swatch" style="background-color: #8B0000" title="Deep Red"
+                                    id="ARBlackColor" data-color="#8B0000"></div>
+                                <div class="color-swatch" style="background-color: #F5F5F5" title="Cream White"
+                                    id="ARGoldColor" data-color="#F5F5F5"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-armrests"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-armrests">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- <div class="config-dropdown-header" data-dropdown-id="Armrests">
+                        <span>material</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div> -->
+                <!-- <div class="config-dropdown-content" id="dropdown-content-Armrests"> -->
+                <!-- <div class="option-item" data-option-id="seat5_1"> -->
+                <!-- <button onclick="matint1()">
+                       
+                        Material1
+                    </button>
+                    <button onclick="matint2()">
+                        
+                        Material2
+                    </button> -->
+                <!-- <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #2F2F2F" title="Carbon Black"
+                                    id="ARSilverColor" data-color="#2F2F2F"></div>
+                                <div class="color-swatch" style="background-color: #8B0000" title="Deep Red"
+                                    id="ARBlackColor" data-color="#8B0000"></div>
+                                <div class="color-swatch" style="background-color: #F5F5F5" title="Cream White"
+                                    id="ARGoldColor" data-color="#F5F5F5"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-armrests"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-armrests">Apply</button>
+                                </div> -->
+                <!-- </div> -->
+
+                <!-- </div> -->
+            </div>
+
+            <div class="main-dropdown-container" data-dropdown-id="interior-plastic" data-category="interior"
+                style="display: none;">
+                <!-- <div class="config-dropdown show">
+                    <div class="config-dropdown-header" data-dropdown-id="Dash Trim">
+                        <span>DASH TRIM</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Dash Trim">
+                        <div class="option-item" data-option-id="plastic1_1">
+                            <div class="color-swatches">
+                                <div class="color-swatch" style="background-color: #333333" title="Matte Black"
+                                    id="DashSilverColor" data-color="#333333"></div>
+                                <div class="color-swatch" style="background-color: #666666" title="Dark Grey"
+                                    id="DashBlackColor" data-color="#666666"></div>
+                                <div class="color-swatch" style="background-color: #999999" title="Light Grey"
+                                    id="DashGoldColor" data-color="#999999"></div>
+                                <div class="custom-color-picker">
+                                    <label>Custom:</label>
+                                    <input type="color" value="#000000" id="custom-color-dash-trim"
+                                        class="custom-color-input">
+                                    <button class="custom-color-apply-btn" id="custom-apply-dash-trim">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="config-dropdown show">
+
+                    <div class="config-dropdown-header" data-dropdown-id="Material-INT">
+                        <span>MATERIALS</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                    </div>
+                    <div class="config-dropdown-content" id="dropdown-content-Material-INT">
+                        <div class="option-item" data-option-id="bodyColor">
+                            <div class="color-swatches">
+                                <div class="color-swatch"
+                                    style="background-image: url('./Images/Material1.jpg'); background-size: cover; background-position: center;"
+                                    title="Material 1" onclick="matint1()"></div>
+                                <div class="color-swatch"
+                                    style="background-image: url('./Images/Material2.jpg'); background-size: cover; background-position: center;"
+                                    title="Material 2" onclick="matint2()"></div>
+                                <div class="color-swatch"
+                                    style="background-image: url('./Images/Material3.png'); background-size: cover; background-position: center;"
+                                    title="Material 3" onclick="matint3()"></div>
+                                <div class="color-swatch"
+                                    style="background-image: url('./Images/Material4.png'); background-size: cover; background-position: center;"
+                                    title="Material 4" onclick="matint4()"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- <div class="config-dropdown show">
+                <div class="config-dropdown-header" data-dropdown-id="Door Panels">
+                    <span>DOOR PANELS</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                </div>
+                <div class="config-dropdown-content" id="dropdown-content-Door Panels">
+                    <div class="option-item" data-option-id="plastic2_1">
+                        <div class="color-swatches">
+                            <div class="color-swatch" style="background-color: #1C2526" title="Gloss Black"
+                                id="DPSilverColor" data-color="#1C2526"></div>
+                            <div class="color-swatch" style="background-color: #4682B4" title="Metallic Blue"
+                                id="DPBlackColor" data-color="#4682B4"></div>
+                            <div class="color-swatch" style="background-color: #2F4F4F" title="Dark Slate"
+                                id="DPGoldColor" data-color="#2F4F4F"></div>
+                            <div class="custom-color-picker">
+                                <label>Custom:</label>
+                                <input type="color" value="#000000" id="custom-color-door-panels"
+                                    class="custom-color-input">
+                                <button class="custom-color-apply-btn" id="custom-apply-door-panels">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+                <!-- <div class="config-dropdown show">
+                <div class="config-dropdown-header" data-dropdown-id="Center Console">
+                    <span>CENTER CONSOLE</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                </div>
+                <div class="config-dropdown-content" id="dropdown-content-Center Console">
+                    <div class="option-item" data-option-id="plastic3_1">
+                        <div class="color-swatches">
+                            <div class="color-swatch" style="background-color: #1C2526" title="Gloss Black"
+                                id="CCSilverColor" data-color="#1C2526"></div>
+                            <div class="color-swatch" style="background-color: #4682B4" title="Metallic Blue"
+                                id="CCBlackColor" data-color="#4682B4"></div>
+                            <div class="color-swatch" style="background-color: #2F4F4F" title="Dark Slate"
+                                id="CCGoldColor" data-color="#2F4F4F"></div>
+                            <div class="custom-color-picker">
+                                <label>Custom:</label>
+                                <input type="color" value="#000000" id="custom-color-center-console"
+                                    class="custom-color-input">
+                                <button class="custom-color-apply-btn" id="custom-apply-center-console">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+                <!-- <div class="config-dropdown show">
+                <div class="config-dropdown-header" data-dropdown-id="Steering Wheel">
+                    <span>STEERING WHEEL</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                </div>
+                <div class="config-dropdown-content" id="dropdown-content-Steering Wheel">
+                    <div class="option-item" data-option-id="plastic4_1">
+                        <div class="color-swatches">
+                            <div class="color-swatch" style="background-color: #1C2526" title="Gloss Black"
+                                id="SWSilverColor" data-color="#1C2526"></div>
+                            <div class="color-swatch" style="background-color: #4682B4" title="Metallic Blue"
+                                id="SWBlackColor" data-color="#4682B4"></div>
+                            <div class="color-swatch" style="background-color: #2F4F4F" title="Dark Slate"
+                                id="SWGoldColor" data-color="#2F4F4F"></div>
+                            <div class="custom-color-picker">
+                                <label>Custom:</label>
+                                <input type="color" value="#000000" id="custom-color-steering-wheel"
+                                    class="custom-color-input">
+                                <button class="custom-color-apply-btn" id="custom-apply-steering-wheel">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+                <!-- <div class="config-dropdown show">
+                <div class="config-dropdown-header" data-dropdown-id="Gear Shifter">
+                    <span>GEAR SHIFTER</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
+                </div>
+                <div class="config-dropdown-content" id="dropdown-content-Gear Shifter">
+                    <div class="option-item" data-option-id="plastic5_1">
+                        <div class="color-swatches">
+                            <div class="color-swatch" style="background-color: #1C2526" title="Gloss Black"
+                                id="GSSilverColor" data-color="#1C2526"></div>
+                            <div class="color-swatch" style="background-color: #4682B4" title="Metallic Blue"
+                                id="GSBlackColor" data-color="#4682B4"></div>
+                            <div class="color-swatch" style="background-color: #2F4F4F" title="Dark Slate"
+                                id="GSGoldColor" data-color="#2F4F4F"></div>
+                            <div class="custom-color-picker">
+                                <label>Custom:</label>
+                                <input type="color" value="#000000" id="custom-color-gear-shifter"
+                                    class="custom-color-input">
+                                <button class="custom-color-apply-btn" id="custom-apply-gear-shifter">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            </div>
+
+        </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+    <script src="./js/material.js"></script>
+</body>
+
+</html>

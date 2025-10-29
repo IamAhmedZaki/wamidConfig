@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Configurator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
+    
+</head>
+<body>
+    <header>
+        <div class="logo">ES</div>
+        <nav>
+            <button class="category-button" id="interior-button">
+                <img src="./Images/steering-wheel.png" alt="icon" style="width: 20px; height: 20px;" />
+                INTERIOR
+            </button>
+            <button class="category-button" id="exterior-button">
+                <img src="./Images/body-repair.png" style="width: 20px; height: 20px;">
+                EXTERIOR
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <div style="display: flex; align-items: center; gap: 1rem; width: 100%; justify-content: flex-start;">
+            <button class="back-button" onclick="goBack()" style = "background-image: url('./Images/left-arrow.png');"></button>
+            <h1 id="model-title" style="margin: 0;">Jetour</h1>
+        </div>
+
+        <div class="Car">
+            <img src="./Images/car-model.png" alt="Car Model" id="car-image" class="car-image" />
+        </div>
+
+        <div class="section-nav">
+            <span id="model-heading">
+                <h3>Model</h3>
+            </span>
+            <div class="carousel-wrapper">
+                <div class="carousel-container">
+                    <div class="carousel-navigation">
+                        <button class="nav-arrow" id="prev-step"></button>
+                        <div class="image-navigation" id="image-navigation">
+                            <button class="image-nav-button active" data-index="0">
+                                1
+                                <img src="./Images/Jetour.png" alt="Car 1" class="hover-image" >
+                            </button>
+                            <button class="image-nav-button next-preview" data-index="1">
+                                2
+                                <img src="./Images/RangeRover.png" alt="Car 2" class="hover-image">
+                            </button>
+                            <button class="image-nav-button far-preview" data-index="2">
+                                3
+                                <img src="./Images/Toyota Land Cruiser.png" alt="Car 3" class="hover-image">
+                            </button>
+                            <button class="image-nav-button far-preview" data-index="3">
+                                4
+                                <img src="./Images/Nissan Patrol.jpeg" alt="Car 4" class="hover-image">
+                            </button>
+                        </div>
+                        <button class="nav-arrow" id="next-step"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="right-config-panel" id="right-config-panel">
+        <div class="panel-header" id="panel-header"></div>
+        <div class="panel-content" id="panel-content"></div>
+    </div>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>
