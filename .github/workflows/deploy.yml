@@ -2,7 +2,7 @@ name: Deploy to S3 (wamidconfigurator)
 
 on:
   push:
-    branches: [ main ]  # deploys when you push to main branch
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -15,7 +15,7 @@ jobs:
       - name: Sync files to S3
         uses: jakejarvis/s3-sync-action@master
         with:
-          args: --acl public-read --delete
+          args: --delete --exclude ".git/*"
         env:
           AWS_S3_BUCKET: wamidconfigurator
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
