@@ -247,6 +247,9 @@ if(event.data.message ==="ready"){
                 this.interiorButton.classList.add("active");
             } else if (category === "exterior") {
                 this.exteriorButton.classList.add("active");
+                document.querySelector('[data-dropdown-id="Stargazer Grill"]').click()
+                document.querySelector('[data-dropdown-id="BackLightCover"]').click()
+                document.querySelector('[data-dropdown-id="GrilledBox"]').click()
             }
             if (this.carouselWrapper.classList.contains("show")) {
                 this.carouselWrapper.classList.remove("show");
