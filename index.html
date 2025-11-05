@@ -26,7 +26,7 @@
         </nav>
     </header>
     <!-- <iframe src="https://playcanv.as/e/p/jYUnWc3U/" frameborder="0" id="app"></iframe> -->
-    <iframe src="https://playcanv.as/e/p/0cbce5d7/" frameborder="0" id="app"></iframe>
+    <iframe src="https://playcanv.as/e/p/31826a07/" frameborder="0" id="app"></iframe>
     <main id="main">
         <div style="display: flex; align-items: center; gap: 1rem; width: 100%; justify-content: flex-start;">
             <button class="back-button" onclick="goBack()" fdprocessedid="jjpoh"></button>
@@ -85,11 +85,11 @@
             <button data-category="exterior" data-dropdown-id="exterior-grills">
                 <img src="./Images/grill.png" style="width: 20px; height: 20px;">
             </button>
-            <button data-category="exterior" data-dropdown-id="exterior-plastic">
-                <img src="./Images/plastic.png" style="width: 20px; height: 20px;">
+            <button data-category="exterior" data-dropdown-id="exterior-plastic" style="display: none;">
+                <img src="./Images/plastic.png" style="width: 20px; height: 20px; ">
             </button>
-            <button data-category="exterior" data-dropdown-id="exterior-left">
-                <img src="./Images/car_left.png" style="width: 20px; height: 20px;">
+            <button data-category="exterior" data-dropdown-id="exterior-left" style="display: none;">
+                <img src="./Images/car_left.png" style="width: 20px; height: 20px; ">
             </button>
             <!-- <button data-category="exterior" data-dropdown-id="exterior-right">
                 <img src="./Images/car_right.png" style="width: 20px; height: 20px;">
@@ -380,19 +380,20 @@
                     <div class="config-dropdown-header" data-dropdown-id="Material">
                         <span>MATERIALS</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
                     </div>
-                    <div class="config-dropdown-content" id="dropdown-content-Material">
+                    <div class="config-dropdown-content exteriorKit" id="dropdown-content-Material">
+                        <div id="materialNames"></div>
                         <div class="option-item" data-option-id="bodyColor">
                             <div class="color-swatches">
-                                <div class="color-swatch"
+                                <div class="color-swatch" data-div-text="Sihoub"
                                     style="background-image: url('./Images/Material1.jpg'); background-size: cover; background-position: center;"
                                     title="Material 1" onclick="matext1()"></div>
-                                <div class="color-swatch"
+                                <div class="color-swatch" data-div-text="Shuhub"
                                     style="background-image: url('./Images/Material2.jpg'); background-size: cover; background-position: center;"
                                     title="Material 2" onclick="matext2()"></div>
-                                <div class="color-swatch"
+                                <div class="color-swatch" data-div-text="Sukoon"
                                     style="background-image: url('./Images/Material3.png'); background-size: cover; background-position: center;"
                                     title="Material 3" onclick="matext3()"></div>
-                                <div class="color-swatch"
+                                <div class="color-swatch" data-div-text="Sukoon"
                                     style="background-image: url('./Images/Material4.png'); background-size: cover; background-position: center;"
                                     title="Material 4" onclick="matext4()"></div>
                                 <!-- <div class="color-swatch" style="background-color: #C0C0C0" title="Silver"
@@ -615,19 +616,20 @@
                     <div class="config-dropdown-header" data-dropdown-id="Material-INT">
                         <span>MATERIALS</span> <img src="./Images/down-arrow.png" style="width: 15px; height: 15px;">
                     </div>
-                    <div class="config-dropdown-content" id="dropdown-content-Material-INT">
+                    <div class="config-dropdown-content interiorKit " id="dropdown-content-Material-INT">
+                        <div id="materialNamesInt"></div>
                         <div class="option-item" data-option-id="bodyColor">
                             <div class="color-swatches">
-                                <div class="color-swatch"
+                                <div class="color-swatch"  data-div-text="Sihoub"
                                     style="background-image: url('./Images/Material1.jpg'); background-size: cover; background-position: center;"
                                     title="Material 1" onclick="matint1()"></div>
-                                <div class="color-swatch"
+                                <div class="color-swatch" data-div-text="Shuhub"
                                     style="background-image: url('./Images/Material2.jpg'); background-size: cover; background-position: center;"
                                     title="Material 2" onclick="matint2()"></div>
-                                <div class="color-swatch"
+                                <div class="color-swatch" data-div-text="Sukoon"
                                     style="background-image: url('./Images/Material3.png'); background-size: cover; background-position: center;"
                                     title="Material 3" onclick="matint3()"></div>
-                                <div class="color-swatch"
+                                <div class="color-swatch" data-div-text="Sukoon"
                                     style="background-image: url('./Images/Material4.png'); background-size: cover; background-position: center;"
                                     title="Material 4" onclick="matint4()"></div>
                             </div>
@@ -734,6 +736,10 @@
 
     <script src="./js/script.js"></script>
     <script src="./js/material.js"></script>
+    <script>
+        document.querySelector('[data-dropdown-id="exterior-plastic"]').style.display='none'
+document.querySelector('[data-dropdown-id="exterior-left"]').style.display='none'
+    </script>
 </body>
 
 </html>

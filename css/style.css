@@ -595,7 +595,7 @@
 
         .config-dropdown-content.open {
             max-height: 1300px;
-            padding-top: 15px;
+            padding-top: 8px;
             padding-bottom: 15px;
             padding-right: 10px;
             overflow-y: auto;
@@ -1350,4 +1350,7 @@
         .config-dropdown-header.open img {
             transform: rotate(180deg);
         }
-   
+        
+        #materialNames,#materialNamesInt{
+            padding-left: 12px;
+        }

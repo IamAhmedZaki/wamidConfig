@@ -276,6 +276,10 @@ if(event.data.message ==="ready"){
         }
         renderPanelContent(category) {
             this.panelHeader.querySelectorAll('button').forEach(btn => {
+               if (['exterior-plastic', 'exterior-left'].includes(btn.dataset.dropdownId)) {
+        btn.style.display = 'none';
+        return; // skip further logic for this button
+    }
                 btn.style.display = (btn.dataset.category === category) ? 'flex' : 'none';
             });
             this.panelContent.querySelectorAll('.main-dropdown-container').forEach(cont => {
@@ -715,6 +719,19 @@ if(event.data.message ==="ready"){
 //         window.history.back();
 //     }
 // });
+
+document.querySelectorAll('.exteriorKit .color-swatch').forEach((div)=>{
+    div.addEventListener('click',()=>{
+        document.getElementById('materialNames').textContent=div.dataset.divText.toUpperCase()
+        
+    })
+})
+document.querySelectorAll('.interiorKit .color-swatch').forEach((div)=>{
+    div.addEventListener('click',()=>{
+        document.getElementById('materialNamesInt').textContent=div.dataset.divText.toUpperCase()
+        
+    })
+})
 
 
 
