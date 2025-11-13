@@ -909,7 +909,7 @@
 
             .right-config-panel {
                 width: 100%;
-                height: 40%;
+                height: 30%;
                 bottom: 0;
                 top: auto;
                 transform: translateY(100%);
@@ -1191,7 +1191,7 @@
 
             .right-config-panel {
                 width: 100%;
-                height: 39%;
+                height: 30%;
                 border-radius: 15px 15px 0 0;
             }
 
@@ -1354,3 +1354,5 @@
         #materialNames,#materialNamesInt{
             padding-left: 12px;
         }
+
+
