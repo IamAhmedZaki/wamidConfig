@@ -117,7 +117,18 @@ if(event.data.message ==="ready"){
             this.panelHeader.querySelectorAll('button').forEach(button => {
                 button.addEventListener("click", () => {
                     console.log(`Clicked panel button: ${button.dataset.dropdownId}`);
-                    this.iframe.contentWindow.postMessage(button.dataset.dropdownId, 'https://playcanv.as');
+                    if (button.dataset.dropdownId=='exterior-grills') {
+                        const mediaQuery = window.matchMedia("(max-width: 768px)");
+                        
+                        if (mediaQuery.matches) {
+                            this.iframe.contentWindow.postMessage('mobile-exterior-grills', 'https://playcanv.as');    
+                        }else{
+                            this.iframe.contentWindow.postMessage(button.dataset.dropdownId, 'https://playcanv.as');
+                        }
+                    }else{
+                        this.iframe.contentWindow.postMessage(button.dataset.dropdownId, 'https://playcanv.as');
+
+                    }
                     this.togglePanelDropdown(button.dataset.dropdownId);
                 });
             });
@@ -246,6 +257,7 @@ if(event.data.message ==="ready"){
             if (category === "interior") {
                 this.interiorButton.classList.add("active");
             } else if (category === "exterior") {
+                //  document.getElementById("app").contentWindow.postMessage('mobile-exterior-grills', '*');
                 this.exteriorButton.classList.add("active");
                 document.querySelector('[data-dropdown-id="Stargazer Grill"]').click()
                 document.querySelector('[data-dropdown-id="BackLightCover"]').click()
@@ -733,6 +745,23 @@ document.querySelectorAll('.interiorKit .color-swatch').forEach((div)=>{
     })
 })
 
+ 
 
+window.addEventListener("resize", () => {
+ let iframe = document.getElementById("app");
+ 
+ const dropdown = document.querySelector('[data-dropdown-id="exterior-grills"]');
+     if (dropdown.classList.contains("active")) {
+        const mediaQuery = window.matchMedia("(max-width: 768px)");
+        
+        if (mediaQuery.matches) {
+            iframe.contentWindow.postMessage('mobile-exterior-grills', 'https://playcanv.as');    
+        }else{
+            iframe.contentWindow.postMessage('exterior-grills', 'https://playcanv.as');
+        }
+    }else{
+        this.iframe.contentWindow.postMessage(button.dataset.dropdownId, 'https://playcanv.as');
 
+    }
+});
 
