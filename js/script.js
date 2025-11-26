@@ -765,3 +765,1094 @@ window.addEventListener("resize", () => {
     }
 });
 
+// var ToggleMeshes = pc.createScript('ToggleMeshes');
+
+// // ---------- Initialize ----------
+// ToggleMeshes.prototype.initialize = function () {
+//     var self = this;
+//     window.parent.postMessage({ message: "ready" }, '*');
+
+
+//     // Mesh entities
+//     this.byDefault = this.app.root.findByName('ByDefault');
+//     this.stargazer = this.app.root.findByName('Stargazer3');
+//     this.blackWarrior = this.app.root.findByName('Black Warrior');
+//     this.defender = this.app.root.findByName('Defender');
+
+//     this.grilledBox = this.app.root.findByName('GrilledBox3');
+//     this.closedBox = this.app.root.findByName('ClosedBox');
+//     this.ladder = this.app.root.findByName('ladder');
+//     this.BackLightCover = this.app.root.findByName('Lights_Cover_Product');
+//     this.Jetour = this.app.root.findByName('Jetour');
+
+//     // Camera entities (using tags)
+//     this.CameraExt = this.app.root.findByTag('CameraExt')[0];
+//     this.CameraInt = this.app.root.findByTag('CameraInt')[0];
+//     this.CameraIntMat = this.app.root.findByTag('CameraIntMat')[0];
+//     this.CameraGrill = this.app.root.findByTag('CameraGrill')[0];
+//     this.CameraBLCover = this.app.root.findByTag('CameraBLCover')[0];
+//     this.CameraBags = this.app.root.findByTag('CameraBags')[0];
+//     this.CameraLadder = this.app.root.findByTag('CameraLadder')[0];
+//     this.CameraIntSeat = this.app.root.findByTag('CameraIntSeat')[0];
+//     this.CameraIntRSeat = this.app.root.findByTag('CameraIntRSeat')[0];
+
+
+//     // Begin play → enable external camera by default
+//     this.activateCameraExt();
+
+//     // Listen for messages from outside (UI / iframe)
+//     window.addEventListener("message", function (event) {
+//         console.log("Received message:", event.data);
+
+//         switch (event.data) {
+//             case "ClosedBox":
+//                 self.activateClosedBox();
+//                 break;
+//             case "GrilledBox":
+//                 self.activateGrilledBox();
+//                 break;
+//             case "Ladder":
+//                 self.flipLadder();
+//                 break;
+//             case "Default Grill":
+//                 self.activateByDefault();
+//                 break;
+//             case "Stargazer Grill":
+//                 self.activateStargazer();
+//                 break;
+//             case "BlackWarrior Grill":
+//                 self.activateBlackWarrior();
+//                 break;
+//             case "Defender Grill":
+//                 self.activateDefender();
+//                 break;
+//             case "BackLightCover":
+//                 self.flipBackLightCover();
+//                 break;
+//             case "interior-button":
+//                 self.activateCameraInt();
+//                 break;
+//             case "exterior-button":
+//                 self.activateCameraExt();
+//                 break;
+//             case "exterior-grills":
+//                 self.activateCameraGrill();
+//                 break;
+//             case "mobile-exterior-grills":
+//                 self.mobileActivateCameraGrill();
+//                 break;
+//             case "exterior-plastic":
+//                 self.activateCameraBLCover();
+//                 break;
+//             case "exterior-left":
+//                 self.activateCameraBags();
+//                 break;
+//             case "exterior-right":
+//                 self.activateCameraLadder();
+//                 break;
+//             case "exterior-paints":
+//                 self.activateCameraExt();
+//                 break;
+//             case "interior-seats":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "interior-plastic":
+//                 self.activateCameraInt();
+//                 break;
+//             case "Rear Leather Seats":
+//                 self.activateCameraIntSeatRear();
+//                 break;
+//             case "Front Leather Seats":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "Seat Belts":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "Headrests":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "Armrests":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "Material_Int":
+//                 self.activateCameraIntMat();
+//                 break;
+
+//             default: console.warn("Unhandled message:", event.data);
+//         }
+//     });
+
+//     // Example: if entity is a UI button
+//     if (this.entity.element && this.entity.element.on) {
+//         this.entity.element.on('click', this.flipLadder, this);
+//     }
+// };
+
+// // ---------- Utility Functions ----------
+// ToggleMeshes.prototype.disableMesh = function (mesh) {
+//     if (mesh && mesh.enabled) mesh.enabled = false;
+// };
+
+// ToggleMeshes.prototype.exclusiveEnable = function (activeMesh, meshGroup) {
+//     meshGroup.forEach(mesh => {
+//         if (mesh !== activeMesh) this.disableMesh(mesh);
+//     });
+//     if (activeMesh) activeMesh.enabled = true;
+// };
+
+// // ---------- Box Toggles ----------
+// ToggleMeshes.prototype.activateClosedBox = function () {
+//     this.exclusiveEnable(this.closedBox, [this.grilledBox]);
+//     console.log("ClosedBox enabled.");
+// };
+
+// ToggleMeshes.prototype.activateGrilledBox = function () {
+//     this.exclusiveEnable(this.grilledBox, [this.closedBox]);
+//     console.log("GrilledBox enabled.");
+// };
+
+// // ---------- Ladder ----------
+// ToggleMeshes.prototype.showLadder = function () {
+//     if (this.ladder && !this.ladder.enabled) {
+//         this.ladder.enabled = true;
+//         console.log("Ladder shown.");
+//     }
+// };
+
+// ToggleMeshes.prototype.hideLadder = function () {
+//     if (this.ladder && this.ladder.enabled) {
+//         this.ladder.enabled = false;
+//         console.log("Ladder hidden.");
+//     }
+// };
+
+// ToggleMeshes.prototype.flipLadder = function () {
+//     if (!this.ladder) return;
+//     this.ladder.enabled ? this.hideLadder() : this.showLadder();
+// };
+
+// // ---------- Grilles ----------
+// ToggleMeshes.prototype.activateByDefault = function () {
+//     this.Jetour.enabled = false;
+//     this.exclusiveEnable(this.byDefault, [
+//         this.stargazer, this.blackWarrior, this.defender
+//     ]);
+//     console.log("ByDefault enabled.");
+// };
+
+// ToggleMeshes.prototype.activateStargazer = function () {
+//     // this.Jetour.enabled = true;
+//     this.exclusiveEnable(this.stargazer, [
+//         this.byDefault, this.blackWarrior, this.defender
+//     ]);
+//     console.log("Stargazer enabled.");
+// };
+
+// ToggleMeshes.prototype.activateBlackWarrior = function () {
+//     // this.Jetour.enabled = true;
+//     this.exclusiveEnable(this.blackWarrior, [
+//         this.byDefault, this.stargazer, this.defender
+//     ]);
+//     console.log("Black Warrior enabled.");
+// };
+
+// ToggleMeshes.prototype.activateDefender = function () {
+//     // this.Jetour.enabled = true;
+//     this.exclusiveEnable(this.defender, [
+//         this.byDefault, this.stargazer, this.blackWarrior
+//     ]);
+//     console.log("Defender enabled.");
+// };
+
+// // ---------- BackLightCover ----------
+// ToggleMeshes.prototype.showBackLightcover = function () {
+//     if (this.BackLightCover && !this.BackLightCover.enabled) {
+//         this.BackLightCover.enabled = true;
+//         console.log("BackLightCover shown.");
+//     }
+// };
+
+// ToggleMeshes.prototype.hideBackLightcover = function () {
+//     if (this.BackLightCover && this.BackLightCover.enabled) {
+//         this.BackLightCover.enabled = false;
+//         console.log("BackLightCover hidden.");
+//     }
+// };
+
+// ToggleMeshes.prototype.flipBackLightCover = function () {
+//     if (!this.BackLightCover) return;
+//     this.BackLightCover.enabled ? this.hideBackLightcover() : this.showBackLightcover();
+// };
+
+// // ---------- Cameras ----------
+// ToggleMeshes.prototype.activateCameraExt = function () {
+//     if (this.CameraExt) this.CameraExt.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraInt = function () {
+//     if (this.CameraInt) this.CameraInt.enabled = true;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraInt enabled, CameraExt disabled.");
+//     // console.log("aaaaaaaaa.");
+// };
+
+// ToggleMeshes.prototype.activateCameraGrill = function () {
+//     if (this.CameraGrill) {
+//         this.CameraGrill.enabled = true;
+//          const pos = this.CameraGrill.getLocalPosition();
+//         this.CameraGrill.setLocalPosition(1, pos.y, 5);
+//         console.log("desktop zoom")
+// }
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraInt enabled, CameraExt disabled.");
+// };
+// ToggleMeshes.prototype.mobileActivateCameraGrill = function () {
+//     if (this.CameraGrill) {
+//         this.CameraGrill.enabled = true;
+//         const pos = this.CameraGrill.getLocalPosition();
+//         this.CameraGrill.setLocalPosition(3, pos.y, 11);
+//         console.log("mobile zoom")
+       
+//     }
+    
+    
+
+
+    
+
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraInt enabled, CameraExt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraBLCover = function () {
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraBags = function () {
+//     if (this.CameraBags) this.CameraBags.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraLadder = function () {
+//     if (this.CameraLadder) this.CameraLadder.enabled = true;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraIntSeat = function () {
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraIntSeatRear = function () {
+//     if (this.CameraIntRSeat) this.CameraIntRSeat.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+
+// ToggleMeshes.prototype.activateCameraIntMat = function () {
+
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = true;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     console.log("CameraIntMat");
+// };
+
+
+
+
+
+// var ToggleMeshes = pc.createScript('ToggleMeshes');
+
+// // ---------- Initialize ----------
+// ToggleMeshes.prototype.initialize = function () {
+//     var self = this;
+//     window.parent.postMessage({ message: "ready" }, '*');
+
+
+//     // Mesh entities
+//     this.byDefault = this.app.root.findByName('ByDefault');
+//     this.stargazer = this.app.root.findByName('Stargazer3');
+//     this.blackWarrior = this.app.root.findByName('Black Warrior');
+//     this.defender = this.app.root.findByName('Defender');
+
+//     this.grilledBox = this.app.root.findByName('GrilledBox3');
+//     this.closedBox = this.app.root.findByName('ClosedBox');
+//     this.ladder = this.app.root.findByName('ladder');
+//     this.BackLightCover = this.app.root.findByName('Lights_Cover_Product');
+//     this.Jetour = this.app.root.findByName('Jetour');
+
+//     // Camera entities (using tags)
+//     this.CameraExt = this.app.root.findByTag('CameraExt')[0];
+//     this.CameraInt = this.app.root.findByTag('CameraInt')[0];
+//     this.CameraIntMat = this.app.root.findByTag('CameraIntMat')[0];
+//     this.CameraGrill = this.app.root.findByTag('CameraGrill')[0];
+//     this.CameraBLCover = this.app.root.findByTag('CameraBLCover')[0];
+//     this.CameraBags = this.app.root.findByTag('CameraBags')[0];
+//     this.CameraLadder = this.app.root.findByTag('CameraLadder')[0];
+//     this.CameraIntSeat = this.app.root.findByTag('CameraIntSeat')[0];
+//     this.CameraIntRSeat = this.app.root.findByTag('CameraIntRSeat')[0];
+
+
+//     // Begin play → enable external camera by default
+//     this.activateCameraExt();
+
+//     // Listen for messages from outside (UI / iframe)
+//     window.addEventListener("message", function (event) {
+//         console.log("Received message:", event.data);
+
+//         switch (event.data) {
+//             case "ClosedBox":
+//                 self.activateClosedBox();
+//                 break;
+//             case "GrilledBox":
+//                 self.activateGrilledBox();
+//                 break;
+//             case "Ladder":
+//                 self.flipLadder();
+//                 break;
+//             case "Default Grill":
+//                 self.activateByDefault();
+//                 break;
+//             case "Stargazer Grill":
+//                 self.activateStargazer();
+//                 break;
+//             case "BlackWarrior Grill":
+//                 self.activateBlackWarrior();
+//                 break;
+//             case "Defender Grill":
+//                 self.activateDefender();
+//                 break;
+//             case "BackLightCover":
+//                 self.flipBackLightCover();
+//                 break;
+//             case "interior-button":
+//                 self.activateCameraInt();
+//                 break;
+//             case "exterior-button":
+//                 self.activateCameraExt();
+//                 break;
+//             case "exterior-grills":
+//                 self.activateCameraGrill();
+//                 break;
+//             case "mobile-exterior-grills":
+//                 self.mobileActivateCameraGrill();
+//                 break;
+//             case "exterior-plastic":
+//                 self.activateCameraBLCover();
+//                 break;
+//             case "exterior-left":
+//                 self.activateCameraBags();
+//                 break;
+//             case "exterior-right":
+//                 self.activateCameraLadder();
+//                 break;
+//             case "exterior-paints":
+//                 self.activateCameraExt();
+//                 break;
+//             case "interior-seats":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "interior-plastic":
+//                 self.activateCameraInt();
+//                 break;
+//             case "Rear Leather Seats":
+//                 self.activateCameraIntSeatRear();
+//                 break;
+//             case "Front Leather Seats":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "Seat Belts":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "Headrests":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "Armrests":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "Material_Int":
+//                 self.activateCameraIntMat();
+//                 break;
+
+//             default: console.warn("Unhandled message:", event.data);
+//         }
+//     });
+
+//     // Example: if entity is a UI button
+//     if (this.entity.element && this.entity.element.on) {
+//         this.entity.element.on('click', this.flipLadder, this);
+//     }
+// };
+
+// // ---------- Utility Functions ----------
+// ToggleMeshes.prototype.disableMesh = function (mesh) {
+//     if (mesh && mesh.enabled) mesh.enabled = false;
+// };
+
+// ToggleMeshes.prototype.exclusiveEnable = function (activeMesh, meshGroup) {
+//     meshGroup.forEach(mesh => {
+//         if (mesh !== activeMesh) this.disableMesh(mesh);
+//     });
+//     if (activeMesh) activeMesh.enabled = true;
+// };
+
+// // ---------- Box Toggles ----------
+// ToggleMeshes.prototype.activateClosedBox = function () {
+//     this.exclusiveEnable(this.closedBox, [this.grilledBox]);
+//     console.log("ClosedBox enabled.");
+// };
+
+// ToggleMeshes.prototype.activateGrilledBox = function () {
+//     this.exclusiveEnable(this.grilledBox, [this.closedBox]);
+//     console.log("GrilledBox enabled.");
+// };
+
+// // ---------- Ladder ----------
+// ToggleMeshes.prototype.showLadder = function () {
+//     if (this.ladder && !this.ladder.enabled) {
+//         this.ladder.enabled = true;
+//         console.log("Ladder shown.");
+//     }
+// };
+
+// ToggleMeshes.prototype.hideLadder = function () {
+//     if (this.ladder && this.ladder.enabled) {
+//         this.ladder.enabled = false;
+//         console.log("Ladder hidden.");
+//     }
+// };
+
+// ToggleMeshes.prototype.flipLadder = function () {
+//     if (!this.ladder) return;
+//     this.ladder.enabled ? this.hideLadder() : this.showLadder();
+// };
+
+// // ---------- Grilles ----------
+// ToggleMeshes.prototype.activateByDefault = function () {
+//     this.Jetour.enabled = false;
+//     this.exclusiveEnable(this.byDefault, [
+//         this.stargazer, this.blackWarrior, this.defender
+//     ]);
+//     console.log("ByDefault enabled.");
+// };
+
+// ToggleMeshes.prototype.activateStargazer = function () {
+//     // this.Jetour.enabled = true;
+//     this.exclusiveEnable(this.stargazer, [
+//         this.byDefault, this.blackWarrior, this.defender
+//     ]);
+//     console.log("Stargazer enabled.");
+// };
+
+// ToggleMeshes.prototype.activateBlackWarrior = function () {
+//     // this.Jetour.enabled = true;
+//     this.exclusiveEnable(this.blackWarrior, [
+//         this.byDefault, this.stargazer, this.defender
+//     ]);
+//     console.log("Black Warrior enabled.");
+// };
+
+// ToggleMeshes.prototype.activateDefender = function () {
+//     // this.Jetour.enabled = true;
+//     this.exclusiveEnable(this.defender, [
+//         this.byDefault, this.stargazer, this.blackWarrior
+//     ]);
+//     console.log("Defender enabled.");
+// };
+
+// // ---------- BackLightCover ----------
+// ToggleMeshes.prototype.showBackLightcover = function () {
+//     if (this.BackLightCover && !this.BackLightCover.enabled) {
+//         this.BackLightCover.enabled = true;
+//         console.log("BackLightCover shown.");
+//     }
+// };
+
+// ToggleMeshes.prototype.hideBackLightcover = function () {
+//     if (this.BackLightCover && this.BackLightCover.enabled) {
+//         this.BackLightCover.enabled = false;
+//         console.log("BackLightCover hidden.");
+//     }
+// };
+
+// ToggleMeshes.prototype.flipBackLightCover = function () {
+//     if (!this.BackLightCover) return;
+//     this.BackLightCover.enabled ? this.hideBackLightcover() : this.showBackLightcover();
+// };
+
+// // ---------- Cameras ----------
+// ToggleMeshes.prototype.activateCameraExt = function () {
+//     if (this.CameraExt) this.CameraExt.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraInt = function () {
+//     if (this.CameraInt) this.CameraInt.enabled = true;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraInt enabled, CameraExt disabled.");
+//     // console.log("aaaaaaaaa.");
+// };
+
+// ToggleMeshes.prototype.activateCameraGrill = function () {
+//     if (this.CameraGrill) {
+//         this.CameraGrill.enabled = true;
+//          const pos = this.CameraGrill.getLocalPosition();
+//         this.CameraGrill.setLocalPosition(1, pos.y, 5);
+//         console.log("desktop zoom")
+// }
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraInt enabled, CameraExt disabled.");
+// };
+// ToggleMeshes.prototype.mobileActivateCameraGrill = function () {
+//     if (this.CameraGrill) {
+//         this.CameraGrill.enabled = true;
+//         const pos = this.CameraGrill.getLocalPosition();
+//         this.CameraGrill.setLocalPosition(2, pos.y, 8);
+//         console.log("mobile zoom")
+       
+//     }
+    
+    
+
+
+    
+
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraInt enabled, CameraExt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraBLCover = function () {
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraBags = function () {
+//     if (this.CameraBags) this.CameraBags.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraLadder = function () {
+//     if (this.CameraLadder) this.CameraLadder.enabled = true;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraIntSeat = function () {
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraIntSeatRear = function () {
+//     if (this.CameraIntRSeat) this.CameraIntRSeat.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+
+// ToggleMeshes.prototype.activateCameraIntMat = function () {
+
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = true;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     console.log("CameraIntMat");
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+// var ToggleMeshes = pc.createScript('ToggleMeshes');
+
+// // ---------- Initialize ----------
+// ToggleMeshes.prototype.initialize = function () {
+//     var self = this;
+//     window.parent.postMessage({ message: "ready" }, '*');
+
+
+//     // Mesh entities
+//     this.byDefault = this.app.root.findByName('ByDefault');
+//     this.stargazer = this.app.root.findByName('Stargazer3');
+//     this.blackWarrior = this.app.root.findByName('Black Warrior');
+//     this.defender = this.app.root.findByName('Defender');
+
+//     this.grilledBox = this.app.root.findByName('GrilledBox3');
+//     this.closedBox = this.app.root.findByName('ClosedBox');
+//     this.ladder = this.app.root.findByName('ladder');
+//     this.BackLightCover = this.app.root.findByName('Lights_Cover_Product');
+//     this.Jetour = this.app.root.findByName('Jetour');
+
+//     // Camera entities (using tags)
+//     this.CameraExt = this.app.root.findByTag('CameraExt')[0];
+//     this.CameraInt = this.app.root.findByTag('CameraInt')[0];
+//     this.CameraIntMat = this.app.root.findByTag('CameraIntMat')[0];
+//     this.CameraGrill = this.app.root.findByTag('CameraGrill')[0];
+//     this.CameraBLCover = this.app.root.findByTag('CameraBLCover')[0];
+//     this.CameraBags = this.app.root.findByTag('CameraBags')[0];
+//     this.CameraLadder = this.app.root.findByTag('CameraLadder')[0];
+//     this.CameraIntSeat = this.app.root.findByTag('CameraIntSeat')[0];
+//     this.CameraIntRSeat = this.app.root.findByTag('CameraIntRSeat')[0];
+
+
+//     // Begin play → enable external camera by default
+//     this.activateCameraExt();
+
+//     // Listen for messages from outside (UI / iframe)
+//     window.addEventListener("message", function (event) {
+//         console.log("Received message:", event.data);
+
+//         switch (event.data) {
+//             case "ClosedBox":
+//                 self.activateClosedBox();
+//                 break;
+//             case "GrilledBox":
+//                 self.activateGrilledBox();
+//                 break;
+//             case "Ladder":
+//                 self.flipLadder();
+//                 break;
+//             case "Default Grill":
+//                 self.activateByDefault();
+//                 break;
+//             case "Stargazer Grill":
+//                 self.activateStargazer();
+//                 break;
+//             case "BlackWarrior Grill":
+//                 self.activateBlackWarrior();
+//                 break;
+//             case "Defender Grill":
+//                 self.activateDefender();
+//                 break;
+//             case "BackLightCover":
+//                 self.flipBackLightCover();
+//                 break;
+//             case "interior-button":
+//                 self.activateCameraInt();
+//                 break;
+//             case "exterior-button":
+//                 self.activateCameraExt();
+//                 break;
+//             case "exterior-grills":
+//                 self.activateCameraGrill();
+//                 break;
+//             case "mobile-exterior-grills":
+//                 self.mobileActivateCameraGrill();
+//                 break;
+//             case "exterior-plastic":
+//                 self.activateCameraBLCover();
+//                 break;
+//             case "exterior-left":
+//                 self.activateCameraBags();
+//                 break;
+//             case "exterior-right":
+//                 self.activateCameraLadder();
+//                 break;
+//             case "exterior-paints":
+//                 self.activateCameraExt();
+//                 break;
+//             case "interior-seats":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "interior-plastic":
+//                 self.activateCameraInt();
+//                 break;
+//             case "Rear Leather Seats":
+//                 self.activateCameraIntSeatRear();
+//                 break;
+//             case "Front Leather Seats":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "Seat Belts":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "Headrests":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "Armrests":
+//                 self.activateCameraIntSeat();
+//                 break;
+//             case "Material_Int":
+//                 self.activateCameraIntMat();
+//                 break;
+
+//             default: console.warn("Unhandled message:", event.data);
+//         }
+//     });
+
+//     // Example: if entity is a UI button
+//     if (this.entity.element && this.entity.element.on) {
+//         this.entity.element.on('click', this.flipLadder, this);
+//     }
+// };
+
+// // ---------- Utility Functions ----------
+// ToggleMeshes.prototype.disableMesh = function (mesh) {
+//     if (mesh && mesh.enabled) mesh.enabled = false;
+// };
+
+// ToggleMeshes.prototype.exclusiveEnable = function (activeMesh, meshGroup) {
+//     meshGroup.forEach(mesh => {
+//         if (mesh !== activeMesh) this.disableMesh(mesh);
+//     });
+//     if (activeMesh) activeMesh.enabled = true;
+// };
+
+// // ---------- Box Toggles ----------
+// ToggleMeshes.prototype.activateClosedBox = function () {
+//     this.exclusiveEnable(this.closedBox, [this.grilledBox]);
+//     console.log("ClosedBox enabled.");
+// };
+
+// ToggleMeshes.prototype.activateGrilledBox = function () {
+//     this.exclusiveEnable(this.grilledBox, [this.closedBox]);
+//     console.log("GrilledBox enabled.");
+// };
+
+// // ---------- Ladder ----------
+// ToggleMeshes.prototype.showLadder = function () {
+//     if (this.ladder && !this.ladder.enabled) {
+//         this.ladder.enabled = true;
+//         console.log("Ladder shown.");
+//     }
+// };
+
+// ToggleMeshes.prototype.hideLadder = function () {
+//     if (this.ladder && this.ladder.enabled) {
+//         this.ladder.enabled = false;
+//         console.log("Ladder hidden.");
+//     }
+// };
+
+// ToggleMeshes.prototype.flipLadder = function () {
+//     if (!this.ladder) return;
+//     this.ladder.enabled ? this.hideLadder() : this.showLadder();
+// };
+
+// // ---------- Grilles ----------
+// ToggleMeshes.prototype.activateByDefault = function () {
+//     this.Jetour.enabled = false;
+//     this.exclusiveEnable(this.byDefault, [
+//         this.stargazer, this.blackWarrior, this.defender
+//     ]);
+//     console.log("ByDefault enabled.");
+// };
+
+// ToggleMeshes.prototype.activateStargazer = function () {
+//     // this.Jetour.enabled = true;
+//     this.exclusiveEnable(this.stargazer, [
+//         this.byDefault, this.blackWarrior, this.defender
+//     ]);
+//     console.log("Stargazer enabled.");
+// };
+
+// ToggleMeshes.prototype.activateBlackWarrior = function () {
+//     // this.Jetour.enabled = true;
+//     this.exclusiveEnable(this.blackWarrior, [
+//         this.byDefault, this.stargazer, this.defender
+//     ]);
+//     console.log("Black Warrior enabled.");
+// };
+
+// ToggleMeshes.prototype.activateDefender = function () {
+//     // this.Jetour.enabled = true;
+//     this.exclusiveEnable(this.defender, [
+//         this.byDefault, this.stargazer, this.blackWarrior
+//     ]);
+//     console.log("Defender enabled.");
+// };
+
+// // ---------- BackLightCover ----------
+// ToggleMeshes.prototype.showBackLightcover = function () {
+//     if (this.BackLightCover && !this.BackLightCover.enabled) {
+//         this.BackLightCover.enabled = true;
+//         console.log("BackLightCover shown.");
+//     }
+// };
+
+// ToggleMeshes.prototype.hideBackLightcover = function () {
+//     if (this.BackLightCover && this.BackLightCover.enabled) {
+//         this.BackLightCover.enabled = false;
+//         console.log("BackLightCover hidden.");
+//     }
+// };
+
+// ToggleMeshes.prototype.flipBackLightCover = function () {
+//     if (!this.BackLightCover) return;
+//     this.BackLightCover.enabled ? this.hideBackLightcover() : this.showBackLightcover();
+// };
+
+// // ---------- Cameras ----------
+// ToggleMeshes.prototype.activateCameraExt = function () {
+//     if (this.CameraExt) this.CameraExt.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraInt = function () {
+//     if (this.CameraInt) this.CameraInt.enabled = true;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraInt enabled, CameraExt disabled.");
+//     // console.log("aaaaaaaaa.");
+// };
+
+// ToggleMeshes.prototype.activateCameraGrill = function () {
+//     if (this.CameraGrill) {
+//         this.CameraGrill.enabled = true;
+//          const pos = this.CameraGrill.getLocalPosition();
+//         this.CameraGrill.setLocalPosition(1, pos.y, 5);
+//         console.log("desktop zoom")
+// }
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraInt enabled, CameraExt disabled.");
+// };
+// ToggleMeshes.prototype.mobileActivateCameraGrill = function () {
+//     if (this.CameraGrill) {
+//         this.CameraGrill.enabled = true;
+//         const pos = this.CameraGrill.getLocalPosition();
+//         this.CameraGrill.setLocalPosition(1, pos.y, 6);
+//         console.log("mobile zoom")
+       
+//     }
+    
+
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraInt enabled, CameraExt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraBLCover = function () {
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraBags = function () {
+//     if (this.CameraBags) this.CameraBags.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraLadder = function () {
+//     if (this.CameraLadder) this.CameraLadder.enabled = true;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraIntSeat = function () {
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+// ToggleMeshes.prototype.activateCameraIntSeatRear = function () {
+//     if (this.CameraIntRSeat) this.CameraIntRSeat.enabled = true;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = false;
+//     console.log("CameraExt enabled, CameraInt disabled.");
+// };
+
+
+// ToggleMeshes.prototype.activateCameraIntMat = function () {
+
+//     if (this.CameraIntMat) this.CameraIntMat.enabled = true;
+//     if (this.CameraInt) this.CameraInt.enabled = false;
+//     if (this.CameraBags) this.CameraBags.enabled = false;
+//     if (this.CameraLadder) this.CameraLadder.enabled = false;
+//     if (this.CameraExt) this.CameraExt.enabled = false;
+//     if (this.CameraGrill) this.CameraGrill.enabled = false;
+//     if (this.CameraBLCover) this.CameraBLCover.enabled = false;
+//     if (this.CameraIntSeat) this.CameraIntSeat.enabled = false;
+//     console.log("CameraIntMat");
+// };
